@@ -5,6 +5,7 @@
 #include <QUrl>
 #include <iostream>
 #include "holochain-rust/hc_dna_c_binding/include/hc_dna_c_binding.h"
+#include "holochain-rust/hc_core_api_c_binding//include/hc_core_api_c_binding.h"
 
 Container::Container(QObject *parent) : QObject(parent)
 {
@@ -43,16 +44,37 @@ QStringList Container::installedApps() {
     return settings.allKeys();
 }
 
-QString Container::appName(QString app_hash) {
+Dna* getDna(QString app_hash) {
     QSettings settings;
     settings.beginGroup("dnas");
     QString dna_string = settings.value(app_hash).toString();
     std::string dna_std_string = dna_string.toStdString();
     const char *buf = dna_std_string.c_str();
     Dna *dna = hc_dna_create_from_json(buf);
+    return dna;
+}
+
+QString Container::appName(QString app_hash) {
+    Dna *dna = getDna(app_hash);
     char *buf2 = hc_dna_get_name(dna);
     QString name(buf2);
     hc_dna_string_free(buf2);
     hc_dna_free(dna);
     return name;
+}
+
+void Container::startApp(QString app_hash) {
+    Holochain *hc=0;
+    if(m_hc_instances.contains(app_hash))
+        hc = m_hc_instances[app_hash];
+    else {
+        Dna *dna = getDna(app_hash);
+        if(dna)
+            hc = hc_new(dna);
+    }
+
+}
+
+void Container::stopApp(QString app_hash) {
+
 }
