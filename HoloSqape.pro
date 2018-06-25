@@ -31,3 +31,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     container.h
+
+LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lhc_dna_c_binding -ldl
