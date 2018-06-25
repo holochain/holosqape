@@ -9,6 +9,7 @@ class Container : public QObject
 public:
     explicit Container(QObject *parent = nullptr);
     Q_INVOKABLE QStringList installedApps();
+    Q_INVOKABLE QString appName(QString app_hash);
 
 signals:
     void appsChanged();

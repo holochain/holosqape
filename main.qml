@@ -22,7 +22,7 @@ Window {
         var component = Qt.createComponent("AppWidget.qml");
         for(var i in apps) {
             var hash = apps[i]
-            component.createObject(layout, {name: hash})
+            component.createObject(layout, {name: Container.appName(hash)})
             console.log(hash)
         }
     }
