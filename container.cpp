@@ -47,7 +47,8 @@ QString Container::appName(QString app_hash) {
     QSettings settings;
     settings.beginGroup("dnas");
     QString dna_string = settings.value(app_hash).toString();
-    const char *buf = dna_string.toStdString().c_str();
+    std::string dna_std_string = dna_string.toStdString();
+    const char *buf = dna_std_string.c_str();
     Dna *dna = hc_dna_create_from_json(buf);
     char *buf2 = hc_dna_get_name(dna);
     QString name(buf2);
