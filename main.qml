@@ -81,10 +81,4 @@ Window {
         visible: false
     }
 
-
- //   MainWindow {
- //       id: window
- //       container: Container
- //   }
-
 }
