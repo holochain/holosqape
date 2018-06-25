@@ -1,15 +1,39 @@
 import QtQuick 2.4
 import Qt.labs.platform 1.0
-import Qt.labs.settings 1.0
 import QtQuick.Dialogs 1.0
 import QtQuick.Window 2.2
+import QtQuick.Layouts 1.11
 
 Window {
-    id: root
+    id: window
+    title: qsTr("HoloSqape")
+    width: 640
+    height: 360
     visible: false
 
 
+    ColumnLayout {
+        id: layout
+        anchors.fill: parent
+    }
 
+    function buildMenu() {
+        var apps = Container.installedApps()
+        var component = Qt.createComponent("AppWidget.qml");
+        for(var i in apps) {
+            var hash = apps[i]
+            component.createObject(layout, {name: hash})
+            console.log(hash)
+        }
+    }
+
+    Connections {
+        target: Container
+        onAppsChanged: buildMenu()
+    }
+
+
+    Component.onCompleted: buildMenu()
 
 
     SystemTrayIcon {
@@ -27,18 +51,9 @@ Window {
                 text: qsTr("Install new UI component...")
             }
             MenuSeparator{}
-            Menu {
-                title: qsTr("Apps")
-                id: appsMenu
-
-                function buildMenu() {
-                    var apps = Container.installedApps()
-                    for(var i in apps) {
-                        var hash = apps[i]
-                        appsMenu.addItem(hash)
-                        console.log(hash)
-                    }
-                }
+            MenuItem {
+                text: window.visible ? qsTr("Hide main window") : qsTr("Show main window")
+                onTriggered: { window.visible = !window.visible }
             }
 
             MenuSeparator{}
@@ -50,16 +65,11 @@ Window {
 
     }
 
-    MenuItem {
-        id: wurst
-        text: 'wurst'
-    }
-
 
     FileDialog {
         id: dnaDialog
         title: "Please choose a Holochain DNA file"
-        //folder: shortcuts.home
+        folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + dnaDialog.fileUrls)
             Container.install_app(dnaDialog.fileUrls)
@@ -71,12 +81,10 @@ Window {
         visible: false
     }
 
-    Connections {
-        target: Container
-        onAppsChanged: appsMenu.buildMenu()
-    }
 
-
-    Component.onCompleted: appsMenu.buildMenu()
+ //   MainWindow {
+ //       id: window
+ //       container: Container
+ //   }
 
 }
