@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>window.qml</file>
+        <file>images/Holochain50+alpha.png</file>
+        <file>images/Holochain600cropped+alpha.png</file>
+    </qresource>
+</RCC>
