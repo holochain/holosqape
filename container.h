@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE QString appName(QString app_hash);
     Q_INVOKABLE void startApp(QString app_hash);
     Q_INVOKABLE void stopApp(QString app_hash);
+    Q_INVOKABLE QString call(QString app_hash, QString zome, QString capability, QString function, QString parameters);
 
 signals:
     void appsChanged();

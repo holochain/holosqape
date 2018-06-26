@@ -86,3 +86,13 @@ void Container::stopApp(QString app_hash) {
         hc_stop(hc);
     }
 }
+
+QString Container::call(QString app_hash, QString zome, QString capability, QString function, QString parameters) {
+    if(m_hc_instances.contains(app_hash)) {
+        Holochain *hc = m_hc_instances[app_hash];
+        char *result = hc_call(hc, zome.toStdString().c_str(), capability.toStdString().c_str(), function.toStdString().c_str(), parameters.toStdString().c_str());
+        return QString(result);
+    } else {
+        return QString("App not running %1").arg(app_hash);
+    }
+}
