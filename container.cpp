@@ -69,12 +69,20 @@ void Container::startApp(QString app_hash) {
         hc = m_hc_instances[app_hash];
     else {
         Dna *dna = getDna(app_hash);
-        if(dna)
+        if(dna) {
             hc = hc_new(dna);
+            m_hc_instances[app_hash] = hc;
+        }
     }
 
+    if(hc) {
+        hc_start(hc);
+    }
 }
 
 void Container::stopApp(QString app_hash) {
-
+    if(m_hc_instances.contains(app_hash)) {
+        Holochain *hc = m_hc_instances[app_hash];
+        hc_stop(hc);
+    }
 }
