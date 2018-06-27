@@ -32,4 +32,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     container.h
 
-LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lhc_dna_c_binding -lhc_core_api_c_binding -ldl
+LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
