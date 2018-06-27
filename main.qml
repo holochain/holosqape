@@ -44,7 +44,7 @@ Window {
 
     SystemTrayIcon {
         visible: true
-        iconSource: "qrc:/images/Holochain50+alpha.png"
+        iconSource: "qrc:/images/HoloSqape-system-tray.png"
 
         menu: Menu {
             MenuItem {

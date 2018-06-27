@@ -4,5 +4,6 @@
         <file>images/Holochain50+alpha.png</file>
         <file>images/Holochain600cropped+alpha.png</file>
         <file>AppWidget.qml</file>
+        <file>images/HoloSqape-system-tray.png</file>
     </qresource>
 </RCC>
