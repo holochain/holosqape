@@ -32,4 +32,19 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     container.h
 
-LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+android {
+    LIBS += -L../HoloSqape/holochain-rust/target/armv7-linux-androideabi/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+} else {
+    LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+}
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradlew \
+    android/res/values/libs.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew.bat
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
