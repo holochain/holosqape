@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
 
-RowLayout {
+ColumnLayout {
     id: _container
     property string name
     property string hash
@@ -25,7 +25,11 @@ RowLayout {
         enabled: false
         onClicked: {
             var result = container.call(hash, 'test_zome', 'test_cap', 'main', '')
-            console.log(result)
+            output.text = result
         }
+    }
+    Text {
+        id: output
+        text: ""
     }
 }
