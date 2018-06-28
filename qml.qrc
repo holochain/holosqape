@@ -7,5 +7,6 @@
         <file>images/HoloSqape-system-tray.png</file>
         <file>apps/test.json</file>
         <file>apps/info.json</file>
+        <file>SystemTrayMenu.qml</file>
     </qresource>
 </RCC>

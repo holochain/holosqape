@@ -1,15 +1,14 @@
 import QtQuick 2.4
-import Qt.labs.platform 1.0
-import QtQuick.Dialogs 1.0
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.11
+import QtQuick.Controls 1.4
 
-Window {
+ApplicationWindow {
     id: window
     title: qsTr("HoloSqape")
     width: 640
     height: 360
-    visible: false
+    visible: true
 
 
     ColumnLayout {
@@ -42,54 +41,19 @@ Window {
     Component.onCompleted: {
         if(Container.installedApps().length === 0) {
             Container.install_app(":/apps/test.json");
+            Container.install_app(":/apps/info.json");
         }
 
         buildMenu()
     }
 
-    SystemTrayIcon {
-        visible: true
-        iconSource: "qrc:/images/HoloSqape-system-tray.png"
-
-        menu: Menu {
-            MenuItem {
-                text: qsTr("Install new app...")
-                onTriggered: {
-                    dnaDialog.open()
-                }
-            }
-            MenuItem {
-                text: qsTr("Install new UI component...")
-            }
-            MenuSeparator{}
-            MenuItem {
-                text: window.visible ? qsTr("Hide main window") : qsTr("Show main window")
-                onTriggered: { window.visible = !window.visible }
-            }
-
-            MenuSeparator{}
-            MenuItem {
-                text: qsTr("Quit")
-                onTriggered: Qt.quit()
-            }
-        }
-
+    Loader {
+        source: (Qt.platform.os == "linux" || Qt.platform.os == "osx" ) ? "SystemTrayMenu.qml" : ""
     }
 
 
-    FileDialog {
-        id: dnaDialog
-        title: "Please choose a Holochain DNA file"
-        folder: shortcuts.home
-        onAccepted: {
-            console.log("You chose: " + dnaDialog.fileUrls)
-            Container.install_app(dnaDialog.fileUrls)
-        }
-        onRejected: {
-            console.log("Canceled")
-            Qt.quit()
-        }
-        visible: false
-    }
+
+
+
 
 }
