@@ -39,8 +39,13 @@ Window {
     }
 
 
-    Component.onCompleted: buildMenu()
+    Component.onCompleted: {
+        if(Container.installedApps().length === 0) {
+            Container.install_app(":/apps/test.json");
+        }
 
+        buildMenu()
+    }
 
     SystemTrayIcon {
         visible: true

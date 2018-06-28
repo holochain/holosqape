@@ -13,7 +13,8 @@ Container::Container(QObject *parent) : QObject(parent)
 }
 
 void Container::install_app(QString path) {
-    QFile file(QUrl(path).toLocalFile());
+    if(!path.startsWith(":/")) path = QUrl(path).toLocalFile();
+    QFile file(path);
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QByteArray contents = file.readAll();
         char* buf = contents.data();

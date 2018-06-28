@@ -1,0 +1,34 @@
+{
+                "name": "test with wasm",
+                "description": "test",
+                "version": "test",
+                "uuid": "00000000-0000-0000-0000-000000000000",
+                "dna_spec_version": "2.0",
+                "properties": {
+                    "test": "test"
+                },
+                "zomes": [
+                    {
+                        "name": "test_zome",
+                        "description": "test",
+                        "config": {},
+                        "entry_types": [],
+                        "capabilities": [
+                            {
+                                "name": "test_cap",
+                                "capability": {
+                                    "membrane": "public"
+                                },
+                                "fn_declarations": [
+                                    {
+                                        "name": "main"
+                                    }
+                                ],
+                                "code": {
+                                    "code": "AGFzbQEAAAABBQFgAAF/AwIBAAUDAQARBxECBG1haW4AAAZtZW1vcnkCAAoHAQUAQbkKCw=="
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
