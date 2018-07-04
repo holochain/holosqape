@@ -3,6 +3,13 @@ A multiplatform Holochain app container that runs in the background and is acces
 
 ![](images/screenshots/system-tray.png)
 
+## Dev Dependencies
+
+[Rust](https://www.rust-lang.org/en-US/install.html)
+[Qt](http://doc.qt.io/qt-5/index.html)
+
+Note that on linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build.
+
 ## Build
 First you must get and build Holochain itself which is added here as a submodule:
 

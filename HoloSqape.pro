@@ -33,9 +33,9 @@ HEADERS += \
     container.h
 
 android {
-    LIBS += -L../HoloSqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 } else {
-    LIBS += -L../HoloSqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../holosqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 }
 
 DISTFILES += \
