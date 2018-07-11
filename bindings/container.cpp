@@ -4,8 +4,8 @@
 #include <QSettings>
 #include <QUrl>
 #include <iostream>
-#include "holochain-rust/dna_c_binding/include/dna_c_binding.h"
-#include "holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
+#include "../holochain-rust/dna_c_binding/include/dna_c_binding.h"
+#include "../holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
 #include "app.h"
 
 Container::Container(QObject *parent) : QObject(parent)
