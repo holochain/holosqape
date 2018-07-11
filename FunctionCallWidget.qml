@@ -13,29 +13,59 @@ ColumnLayout {
 
     Layout.fillWidth: true
 
+    Component.onCompleted: {
+        var parameter_names = app.parameter_names(zome, capability,fn)
+        var as_string = ""
+        for(var i=0; i<parameter_names.length; i++) {
+            as_string += parameter_names[i]
+            if(i<parameter_names.length-1)
+                as_string += ", "
+        }
+        parameters.placeholderText = as_string
+    }
+
     RowLayout {
         Layout.fillHeight: false
         Layout.fillWidth: true
         Text {
             id: name
-            text: zome + "/" + capability + "/" + fn +"()"
-            anchors.left: parent.left
+            text: zome + "/" + capability + "/" + fn +"("
             font.pixelSize: 20
             font.bold: true
         }
 
-        TextInput {
-            id: parameters
-            anchors.left: name.right
+        Rectangle {
             Layout.fillWidth: true
+            color: "white"
+            border.width: 1
+            Layout.minimumHeight: 23
+
+            TextInput {
+                id: parameters
+                anchors.fill: parent
+                anchors.leftMargin: 5
+                anchors.topMargin: 2
+
+                property string placeholderText: "Enter text here..."
+
+                Text {
+                    text: parameters.placeholderText
+                    color: "#aaa"
+                    visible: !parameters.text
+                }
+            }
+        }
+
+
+        Text {
+            text: ")"
+            font.pixelSize: 20
+            font.bold: true
         }
 
         Button {
             id: button
             text: "Run"
-            anchors.left: parameters.right
-            anchors.right: parent.right
-            anchors.top: parent.top
             onClicked: {
                 var result = app.call(zome, capability, fn, parameters.text)
                 output.text = result
