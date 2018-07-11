@@ -3,7 +3,7 @@
 TEMPLATE = subdirs
 SUBDIRS = bindings \
             holosqape \
-            holotests
+            holoconsole
 holosqape.depends = bindings
-holotests.depends = bindings
+holoconsole.depends = bindings
 include(pods-subdirs.pri)
