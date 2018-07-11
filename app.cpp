@@ -13,6 +13,8 @@ App::App(QString hash, QObject *parent) : QObject(parent), m_hash(hash)
     m_dna = getDna(m_hash);
     if(m_dna){
         m_instance = holochain_new(m_dna);
+        // need to recreate a dna object because holochain_new() consumes it..
+        // Might wanna change that on the rust side?
         m_dna = getDna(m_hash);
     } else {
         m_instance = 0;
