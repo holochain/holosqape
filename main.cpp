@@ -1,7 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "Container.h"
+#include "container.h"
 #include "app.h"
 
 int main(int argc, char *argv[])
