@@ -46,7 +46,6 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        color: white
 
         TextInput {
             anchors.topMargin: 2
@@ -103,7 +102,7 @@ ApplicationWindow {
                 {
                     hash: hash,
                     name: Container.appName(hash),
-                    container: Container
+                    app: Container.instantiate(hash)
                 }
             )
             console.log(hash)
