@@ -1,4 +1,4 @@
-QT += quick
+QT += qml
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -27,6 +27,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS +=
+
+INCLUDEPATH += ../bindings
+LIBS += -L../bindings -lbindings
 
 android {
     LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl

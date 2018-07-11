@@ -6,4 +6,3 @@ SUBDIRS = bindings \
             holoconsole
 holosqape.depends = bindings
 holoconsole.depends = bindings
-include(pods-subdirs.pri)
