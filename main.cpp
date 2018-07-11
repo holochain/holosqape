@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "Container.h"
+#include "app.h"
 
 int main(int argc, char *argv[])
 {
@@ -18,6 +19,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Container", &c);
+    qmlRegisterType<App>("org.holochain.container", 1, 0, "App");
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
