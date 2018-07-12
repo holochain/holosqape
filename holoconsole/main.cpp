@@ -1,7 +1,9 @@
 #include <QtCore>
 #include "container.h"
 #include "app.h"
-#include <QJSEngine>
+//#include <QJSEngine>
+#include <QQmlEngine>
+#include <QQmlContext>
 #include <iostream>
 #include <string>
 
@@ -18,7 +20,7 @@ int main(int argc, char *argv[])
     parser.setApplicationDescription("A GUI-less Holochain app container - with interactive JS shell");
     const QCommandLineOption helpOption = parser.addHelpOption();
     const QCommandLineOption versionOption = parser.addVersionOption();
-    //parser.addPositionalArgument("source", QCoreApplication::translate("main", "Source file to copy."));
+    parser.addPositionalArgument("script", QCoreApplication::translate("main", "JS file to run"));
     //parser.addPositionalArgument("destination", QCoreApplication::translate("main", "Destination directory."));
 
     QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", QCoreApplication::translate("main", "Open interactive shell"));
@@ -47,15 +49,43 @@ int main(int argc, char *argv[])
         parser.showVersion();
     }
 
+    const QStringList positionalArguments = parser.positionalArguments();
+    if (positionalArguments.isEmpty() && !interactive) {
+        std::cout << "Argument 'script' missing." << std::endl;
+        return 1;
+    }
+    if (positionalArguments.size() > 1) {
+        std::cout << "Several 'script' arguments specified." << std::endl;
+        return 1;
+    }
+
+    Container c;
+
+    //QJSEngine engine;
+    //QJSValue container = engine.newQObject(&c);
+    //engine.globalObject().setProperty("Container", container);
+    //qRegisterMetaType<App*>();
+
+    QQmlEngine engine;
+    engine.rootContext()->setContextProperty("Container", &c);
+    qmlRegisterType<App>("org.holochain.container", 1, 0, "App");
+
+    if (positionalArguments.size() == 1) {
+        QString fileName = positionalArguments.first();
+        QFile scriptFile(fileName);
+        if (!scriptFile.open(QIODevice::ReadOnly)) {
+            std::cout << "Could not open file " << fileName.toStdString() << "!" << std::endl;
+            return 1;
+        }
+
+        QTextStream stream(&scriptFile);
+        QString contents = stream.readAll();
+        scriptFile.close();
+        QJSValue result = engine.evaluate(contents, fileName);
+        std::cout << result.toString().toStdString() << std::endl;
+    }
+
     if(interactive) {
-        Container c;
-
-        QJSEngine engine;
-        QJSValue container = engine.newQObject(&c);
-        engine.globalObject().setProperty("Container", container);
-        //qmlRegisterType<App>("org.holochain.container", 1, 0, "App");
-        qRegisterMetaType<App*>();
-
         bool exit = false;
         while(!exit) {
             std::cout << "> ";
