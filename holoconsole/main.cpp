@@ -1,7 +1,6 @@
 #include <QtCore>
 #include "container.h"
 #include "app.h"
-//#include <QJSEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <iostream>
@@ -60,14 +59,9 @@ int main(int argc, char *argv[])
     }
 
     Container c;
-
-    //QJSEngine engine;
-    //QJSValue container = engine.newQObject(&c);
-    //engine.globalObject().setProperty("Container", container);
-    //qRegisterMetaType<App*>();
-
     QQmlEngine engine;
-    engine.rootContext()->setContextProperty("Container", &c);
+    QJSValue container = engine.newQObject(&c);
+    engine.globalObject().setProperty("Container", container);
     qmlRegisterType<App>("org.holochain.container", 1, 0, "App");
 
     if (positionalArguments.size() == 1) {
