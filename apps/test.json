@@ -21,7 +21,11 @@
                                 },
                                 "fn_declarations": [
                                     {
-                                        "name": "main"
+                                        "name": "main",
+                                        "signature": {
+                                            "inputs": [],
+                                            "outputs": []
+                                        }
                                     }
                                 ],
                                 "code": {

@@ -7,29 +7,44 @@ ColumnLayout {
     property string name
     property string hash
     property var container
+    property var app
+
+    Layout.fillWidth: true
+
     Switch {
         text: _container.name
+        font.pixelSize: 20
+        font.bold: true
         onClicked: {
             if(checked) {
-                container.startApp(hash)
-                call_button.enabled = true
+                app.start()
             } else {
-                container.stopApp(hash)
-                call_button.enabled = false
+                app.stop()
             }
         }
     }
-    Button {
-        id: call_button
-        text: 'call: test_zome/test_cap/main()'
-        enabled: false
-        onClicked: {
-            var result = container.call(hash, 'test_zome', 'test_cap', 'main', '')
-            output.text = result
+
+    Component.onCompleted: {
+        var zome_names = app.zome_names()
+        for(var i=0; i<zome_names.length; i++) {
+            var zome_name = zome_names[i]
+            var capabilities = app.capabilities_for_zome(zome_name)
+            for(var j=0; j<capabilities.length; j++) {
+                var cap_name = capabilities[j]
+                var functions = app.functions_for_zome_capability(zome_name, cap_name)
+                for(var k=0; k<functions.length; k++) {
+                    var fn_name = functions[k]
+                    var component = Qt.createComponent("FunctionCallWidget.qml");
+                    var object = component.createObject(this,
+                        {
+                            app: app,
+                            zome: zome_name,
+                            capability: cap_name,
+                            fn: fn_name
+                        }
+                    )
+                }
+            }
         }
-    }
-    Text {
-        id: output
-        text: ""
     }
 }

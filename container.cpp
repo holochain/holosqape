@@ -6,6 +6,7 @@
 #include <iostream>
 #include "holochain-rust/dna_c_binding/include/dna_c_binding.h"
 #include "holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
+#include "app.h"
 
 Container::Container(QObject *parent) : QObject(parent)
 {
@@ -63,7 +64,7 @@ QString Container::appName(QString app_hash) {
     holochain_dna_free(dna);
     return name;
 }
-
+/*
 void Container::startApp(QString app_hash) {
     Holochain *hc=0;
     if(m_hc_instances.contains(app_hash))
@@ -96,4 +97,18 @@ QString Container::call(QString app_hash, QString zome, QString capability, QStr
     } else {
         return QString("App not running %1").arg(app_hash);
     }
+}*/
+
+QList<App*> Container::instances() {
+    return m_app_instances;
+}
+
+App* Container::instantiate(QString app_hash) {
+    Dna *dna = getDna(app_hash);
+    if(!dna) return 0;
+    holochain_dna_free(dna);
+
+    App *app = new App(app_hash, this);
+    m_app_instances.push_back(app);
+    return app;
 }

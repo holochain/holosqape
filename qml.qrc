@@ -8,5 +8,6 @@
         <file>apps/test.json</file>
         <file>apps/info.json</file>
         <file>SystemTrayMenu.qml</file>
+        <file>FunctionCallWidget.qml</file>
     </qresource>
 </RCC>

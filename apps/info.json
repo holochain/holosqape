@@ -21,8 +21,19 @@
                                 },
                                 "fn_declarations": [
                                     {
-                                        "name": "main"
-                                    }
+                                        "name": "main",
+                                        "signature": {
+                                            "inputs": [],
+                                            "outputs": []
+                                        }
+                                    },
+                                        {
+                                            "name": "test_multiple_fns",
+                                            "signature": {
+                                                "inputs": [{"name": "arg1", "type": "string"}],
+                                                "outputs": []
+                                            }
+                                        }
                                 ],
                                 "code": {
                                     "code": "AGFzbQEAAAABBwFgAn9/AX8DAgEABQMBAAEHGgIGbWVtb3J5AgANbWFpbl9kaXNwYXRjaAAACgYBBABBEAsLDwEAQQALCUZyb20gV0FTTQ=="
