@@ -57,6 +57,10 @@ void Console::timeout() {
     m_callbacks[timer].call();
     m_callbacks.remove(timer);
     timer->deleteLater();
+
+    if(m_callbacks.isEmpty() && !m_interactive)
+        QCoreApplication::quit();
+
 }
 
 void Console::setInteractive(bool is_interactive) {
