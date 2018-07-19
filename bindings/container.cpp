@@ -13,7 +13,7 @@ Container::Container(QObject *parent) : QObject(parent)
 
 }
 
-void Container::install_app(QString path) {
+void Container::installApp(QString path) {
     if(!path.startsWith(":/")) path = QUrl(path).toLocalFile();
     QFile file(path);
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
