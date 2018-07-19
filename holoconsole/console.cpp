@@ -2,7 +2,7 @@
 #include <QTimer>
 #include <QJSEngine>
 
-Console::Console(QObject *parent) : QObject(parent)
+Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this)
 {
     QJSValue container = m_engine.newQObject(&m_container);
     QJSValue console = m_engine.newQObject(this);

@@ -53,15 +53,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Console t;
-    t.setInteractive(parser.isSet(interactiveOption));
+    Console *console = new Console;
+    console->setInteractive(parser.isSet(interactiveOption));
 
     if (positionalArguments.size() == 1) {
         QString scriptPath = positionalArguments.first();
-        t.setScriptPath(scriptPath);
+        console->setScriptPath(scriptPath);
     }
 
-    QTimer::singleShot(1, &t, SLOT(run()));
+    QTimer::singleShot(1, console, SLOT(run()));
 
     return app.exec();
 }

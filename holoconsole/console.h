@@ -38,10 +38,10 @@ public slots:
 private:
     QJSValue run_script_file(QString scriptPath);
 
-    QJSEngine m_engine;
-    Container m_container;
     bool m_interactive;
     QString m_script_path;
+    QJSEngine m_engine;
+    Container m_container;
     QHash<QTimer*, QJSValue> m_callbacks;
 };
 
