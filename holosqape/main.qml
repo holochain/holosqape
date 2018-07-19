@@ -17,11 +17,13 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: consoleOutput.top
+        anchors.margins: 20
 
         Flickable {
             ColumnLayout {
                 id: layout
                 anchors.fill: parent
+                Layout.bottomMargin: 150
             }
         }
     }

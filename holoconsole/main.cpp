@@ -1,10 +1,5 @@
 #include <QtCore>
-#include "container.h"
-#include "app.h"
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <iostream>
-#include <string>
+#include "console.h"
 
 int main(int argc, char *argv[])
 {
@@ -58,37 +53,15 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    Container c;
-    QQmlEngine engine;
-    QJSValue container = engine.newQObject(&c);
-    engine.globalObject().setProperty("Container", container);
-    qmlRegisterType<App>("org.holochain.container", 1, 0, "App");
+    Console t;
+    t.setInteractive(parser.isSet(interactiveOption));
 
     if (positionalArguments.size() == 1) {
-        QString fileName = positionalArguments.first();
-        QFile scriptFile(fileName);
-        if (!scriptFile.open(QIODevice::ReadOnly)) {
-            std::cout << "Could not open file " << fileName.toStdString() << "!" << std::endl;
-            return 1;
-        }
-
-        QTextStream stream(&scriptFile);
-        QString contents = stream.readAll();
-        scriptFile.close();
-        QJSValue result = engine.evaluate(contents, fileName);
-        std::cout << result.toString().toStdString() << std::endl;
+        QString scriptPath = positionalArguments.first();
+        t.setScriptPath(scriptPath);
     }
 
-    if(interactive) {
-        bool exit = false;
-        while(!exit) {
-            std::cout << "> ";
-            std::string input;
-            std::getline(std::cin, input);
-            if(input == "exit") return 0;
+    QTimer::singleShot(1, &t, SLOT(run()));
 
-            QJSValue result = engine.evaluate(QString(input.c_str()));
-            std::cout << result.toString().toStdString() << std::endl;
-        }
-    }
+    return app.exec();
 }
