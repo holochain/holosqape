@@ -119,8 +119,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if(Container.installedApps().length === 0) {
-            Container.install_app(":/apps/test.json");
-            Container.install_app(":/apps/info.json");
+            Container.installApp(":/apps/test.json");
+            Container.installApp(":/apps/info.json");
         }
 
         buildMenu()

@@ -39,7 +39,7 @@ Item {
         folder: shortcuts.home
         onAccepted: {
             console.log("You chose: " + dnaDialog.fileUrls)
-            Container.install_app(dnaDialog.fileUrls)
+            Container.installApp(dnaDialog.fileUrls)
         }
         onRejected: {
             console.log("Canceled")
