@@ -38,7 +38,6 @@ public slots:
 private:
     void run_script_file(QString scriptPath);
 
-    QJSValue m_callback;
     QJSEngine m_engine;
     Container m_container;
     bool m_interactive;

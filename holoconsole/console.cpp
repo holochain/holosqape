@@ -24,7 +24,6 @@ QTimer* Console::setTimeout(QJSValue fn, int milliseconds)
     connect(timer, SIGNAL(timeout()), this, SLOT(timeout()));
     timer->setSingleShot(true);
     timer->start(milliseconds);
-    std::cout << "timeout: " << fn.toString().toStdString() << " - " << milliseconds << std::endl;
     return timer;
   }
 
@@ -54,8 +53,6 @@ void Console::timeout() {
         std::cout << "Timout from non-timer?!" << std::endl;
         return;
     }
-
-    std::cout << "Timout: " << timer << std::endl;
 
     m_callbacks[timer].call();
     m_callbacks.remove(timer);
