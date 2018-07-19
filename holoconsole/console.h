@@ -36,7 +36,7 @@ public slots:
     void run();
 
 private:
-    void run_script_file(QString scriptPath);
+    QJSValue run_script_file(QString scriptPath);
 
     QJSEngine m_engine;
     Container m_container;

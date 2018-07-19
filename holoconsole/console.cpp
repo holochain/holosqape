@@ -67,7 +67,7 @@ void Console::setScriptPath(QString script_path) {
     m_script_path = script_path;
 }
 
-void Console::run_script_file(QString scriptPath) {
+QJSValue Console::run_script_file(QString scriptPath) {
     QFile scriptFile(scriptPath);
     if (!scriptFile.open(QIODevice::ReadOnly)) {
         std::cout << "Could not open file " << scriptPath.toStdString() << "!" << std::endl;
@@ -83,16 +83,17 @@ void Console::run_script_file(QString scriptPath) {
                         << ":" << result.toString() << "\n"
                         << result.property("message").toString() << "\n"
                         << result.property("stack").toString() << "\n";
-        } else {
-            std::cout << "=>" << result.toString().toStdString() << std::endl;
         }
+
+        return result;
     }
 }
 
 void Console::run() {
 
     if (m_script_path != "") {
-        run_script_file(m_script_path);
+        QJSValue result = run_script_file(m_script_path);
+        std::cout << "=>" << result.toString().toStdString() << std::endl;
         m_script_path = "";
     }
 
