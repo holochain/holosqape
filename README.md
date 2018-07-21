@@ -70,7 +70,7 @@ let dnaHash = Container.installedApps()[0]
 let app = Container.instantiate(dnaHash)
 // app is actually a C++ object that wraps the Rust Holochain instance
 app.name() // -> App name defined in DNA
-app.start() // starts the instance's event loop and later will start the network node and DHT (not implement in Rust yet)
+app.start() // starts the instance's event loop and later will start the network node and DHT (not implemented in Rust yet)
 let result = app.call("zome name", "capability name", "function name", "parameters") // runs the zome function which invovles interpreting the app's WASM code
 ```
 
