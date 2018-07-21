@@ -22,7 +22,7 @@ public:
     explicit Console(QObject *parent = nullptr);
     Q_INVOKABLE QTimer* setTimeout(QJSValue fn, int milliseconds);
     Q_INVOKABLE QTimer* getTimer();
-    Q_INVOKABLE void clearTimout(QTimer *timeout);
+    Q_INVOKABLE void clearTimeout(QTimer *timeout);
     Q_INVOKABLE void log(QString message);
 
 

@@ -30,7 +30,7 @@ QTimer* Console::setTimeout(QJSValue fn, int milliseconds)
   return 0;
 }
 
-void Console::clearTimout(QTimer *timeout) {
+void Console::clearTimeout(QTimer *timeout) {
     timeout->stop();
     m_callbacks.remove(timeout);
     timeout->deleteLater();
