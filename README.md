@@ -23,15 +23,25 @@ Then you can build it just with:
 
 ```
 cd holochain-rust
-cargo build
+cargo build --release
 ```
 
 given that you have rust installed.
 
-Now either open and build holosqape.pro with [Qt Creator](https://en.wikipedia.org/wiki/Qt_Creator) (esp. if you want to build for Android or iOS) or run:
+Now either open and build all.pro with [Qt Creator](https://en.wikipedia.org/wiki/Qt_Creator) (esp. if you want to build for Android or iOS) or run:
 
 ```
 qmake
+make
+```
+
+Make sure you run matching build configurations (i.e. debug/release). The commands above are for release. If you want to build debug do:
+
+```
+cd holochain-rust
+cargo build
+cd ..
+qmake CONFIG+=debug
 make
 ```
 
