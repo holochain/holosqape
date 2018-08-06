@@ -6,8 +6,8 @@ A multiplatform Holochain app container that runs in the background and is acces
 
 ## Dev Dependencies
 
-[Rust](https://www.rust-lang.org/en-US/install.html)
-[Qt](http://doc.qt.io/qt-5/index.html)
+* [Rust](https://www.rust-lang.org/en-US/install.html)
+* [Qt](http://doc.qt.io/qt-5/index.html) (On macOS, `brew install qt` should be fine.)
 
 Note that on linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build.
 
@@ -104,7 +104,7 @@ Compile holoconsole and run it like this:
 It should give you the following output:
 
 ```
-$ ./holoconsole ~/code/HoloSqape/app-test-scaffold/dist/bundle.js
+$ ./holoconsole ../app-test-scaffold/dist/bundle.js
 QML debugging is enabled. Only use this in a safe environment.
 =>true
 TAP version 13
@@ -122,6 +122,8 @@ ok 5 should be equal
 
 # ok
 ```
+
+(Note: on macOS the executable will be in `holoconsole.app/Contents/MacOS` so call should look like this: `holoconsole.app/Contents/MacOS ../app-test-scaffold/dist/bundle.js`)
 
 ### Webpack config
 If you create your own testing project and you want to use Webpack for bundling make sure to set the following node parameters to have the output run in HoloSqapes JS engine:
