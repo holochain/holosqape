@@ -34,12 +34,13 @@ HEADERS +=
 INCLUDEPATH += ../bindings
 
 android {
-    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
 } else {
-    LIBS += -L../../holosqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../../holosqape/holochain-rust/target/debug/
 }
 
-LIBS += -L../bindings -lbindings
+LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+
 
 DISTFILES += \
     android/AndroidManifest.xml \

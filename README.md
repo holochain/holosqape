@@ -6,8 +6,8 @@ A multiplatform Holochain app container that runs in the background and is acces
 
 ## Dev Dependencies
 
-[Rust](https://www.rust-lang.org/en-US/install.html)
-[Qt](http://doc.qt.io/qt-5/index.html)
+- [Rust](https://www.rust-lang.org/en-US/install.html)
+- [Qt](http://doc.qt.io/qt-5/index.html)
 
 Note that on linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build.
 
@@ -132,4 +132,3 @@ node: {
 	setImmediate: false
 }
 ```
-
