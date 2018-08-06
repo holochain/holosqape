@@ -59,7 +59,7 @@ This repository consist of several sub directories containing separate sub proje
 ## App tests
 
 ### Binding objects
-In order to test a Holochain app we need a JS script that we run in holoconsole. The script engine adds a global object ```Container``` to the context before loading and running the user script. It currently has the following methods:
+In order to test a Holochain app we need a JS script that we run in holoconsole. The script engine adds a global object `Container` to the context before loading and running the user script. It currently has the following methods:
 
 * installedApps()
 * instantiate(dnaHash)
@@ -67,7 +67,7 @@ In order to test a Holochain app we need a JS script that we run in holoconsole.
 
 and more as can be seen in [container.h](bindings/container.h).
 
-instantiate() returns an ```App``` object as defined in [app.h](bindings/app.h) with a method
+instantiate() returns an `App` object as defined in [app.h](bindings/app.h) with a method
 
 * call(zome_name, capability_name, function_name, parameters)
 
@@ -88,14 +88,14 @@ let result = app.call("zome name", "capability name", "function name", "paramete
 ### Using Tape testing framework
 To get proper assertions and formatted output we want to use existing JS scripting frameworks. We chose Tape for now because of its mininmal footprint.
 
-In order to build a JS bundle including Tape, we use Webpack. ```app-test-scaffold``` contains a working example which can be run like this:
+In order to build a JS bundle including Tape, we use Webpack. `app-test-scaffold` contains a working example which can be run like this:
 
 ```
 cd app-test-scaffold
 npm install
 webpack-cli
 ```
-You should now find the output in ```app-test-scaffold/dist/bundle.js```.
+You should now find the output in `app-test-scaffold/dist/bundle.js`.
 Compile holoconsole and run it like this:
 ```
 ./holoconsole <path-to-repo>/app-test-scaffold/dist/bundle.js
