@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \  
+        main.cpp \
     console.cpp
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -32,12 +32,13 @@ HEADERS += \
     console.h
 
 INCLUDEPATH += ../bindings
-LIBS += -L../bindings -lbindings
+LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 
 android {
-    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
 } else {
-    LIBS += -L../../holosqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L../../holosqape/holochain-rust/target/debug/
+
 }
 
 RESOURCES += \
