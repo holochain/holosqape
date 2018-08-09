@@ -8,6 +8,7 @@ A multiplatform Holochain app container that runs in the background and is acces
 
 * [Rust](https://www.rust-lang.org/en-US/install.html)
 * [Qt](http://doc.qt.io/qt-5/index.html) (On macOS, `brew install qt` should be fine.)
+* [cmake](https://cmake.org/install)
 
 Note that on linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build.
 
