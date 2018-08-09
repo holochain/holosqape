@@ -21,7 +21,7 @@ signals:
     void appsChanged();
 
 public slots:
-    void install_app(QString path);
+    void installApp(QString path);
 
 private:
     QList<App*> m_app_instances;

@@ -4,8 +4,8 @@
 #include <QSettings>
 #include <QUrl>
 #include <iostream>
-#include "holochain-rust/dna_c_binding/include/dna_c_binding.h"
-#include "holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
+#include "../holochain-rust/dna_c_binding/include/dna_c_binding.h"
+#include "../holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
 #include "app.h"
 
 Container::Container(QObject *parent) : QObject(parent)
@@ -13,7 +13,7 @@ Container::Container(QObject *parent) : QObject(parent)
 
 }
 
-void Container::install_app(QString path) {
+void Container::installApp(QString path) {
     if(!path.startsWith(":/")) path = QUrl(path).toLocalFile();
     QFile file(path);
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {

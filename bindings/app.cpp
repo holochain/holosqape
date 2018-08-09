@@ -1,6 +1,6 @@
 #include "app.h"
-#include "holochain-rust/dna_c_binding/include/dna_c_binding.h"
-#include "holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
+#include "../holochain-rust/dna_c_binding/include/dna_c_binding.h"
+#include "../holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
 #include "container.h"
 
 App::App() : QObject(0) {

@@ -17,11 +17,13 @@ ApplicationWindow {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: consoleOutput.top
+        anchors.margins: 20
 
         Flickable {
             ColumnLayout {
                 id: layout
                 anchors.fill: parent
+                Layout.bottomMargin: 150
             }
         }
     }
@@ -117,8 +119,8 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if(Container.installedApps().length === 0) {
-            Container.install_app(":/apps/test.json");
-            Container.install_app(":/apps/info.json");
+            Container.installApp(":/apps/test.json");
+            Container.installApp(":/apps/info.json");
         }
 
         buildMenu()

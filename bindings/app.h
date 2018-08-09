@@ -43,4 +43,6 @@ private:
     QString m_hash;
 };
 
+Q_DECLARE_METATYPE(App*)
+
 #endif // APP_H
