@@ -13,28 +13,44 @@ Container::Container(QObject *parent) : QObject(parent)
 
 }
 
-void Container::installApp(QString path) {
-    if(!path.startsWith(":/")) path = QUrl(path).toLocalFile();
+Dna* loadDnaFile(QString path) {
+    if(!path.startsWith(":/"))
+        if(QUrl(path).toLocalFile() != "")
+            path = QUrl(path).toLocalFile();
     QFile file(path);
+
     if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QByteArray contents = file.readAll();
         char* buf = contents.data();
 
-        Dna *dna = holochain_dna_create_from_json(buf);
+        return holochain_dna_create_from_json(buf);
+    } else {
+        return 0;
+    }
+}
 
-        if(!dna) {
-            std::cout << "No valid Holochain DNA file" << std::endl;
-            std::cout << QString("%1 is not a valid Holochain DNA file!").arg(path).toStdString() << std::endl;
-            return;
+void Container::installApp(QString path) {
+
+    Dna *dna = loadDnaFile(path);
+
+    if(!dna) {
+        std::cout << "No valid Holochain DNA file" << std::endl;
+        std::cout << QString("%1 is not a valid Holochain DNA file!").arg(path).toStdString() << std::endl;
+        return;
+    } else {
+        if(!path.startsWith(":/")) path = QUrl(path).toLocalFile();
+        QFile file(path);
+
+        if(file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QByteArray contents = file.readAll();
+            QCryptographicHash hash(QCryptographicHash::Sha256);
+            hash.addData(contents);
+
+            QSettings settings;
+            settings.beginGroup("dnas");
+            settings.setValue(hash.result().toBase64(), contents);
+            emit appsChanged();
         }
-
-        QCryptographicHash hash(QCryptographicHash::Sha256);
-        hash.addData(contents);
-
-        QSettings settings;
-        settings.beginGroup("dnas");
-        settings.setValue(hash.result().toBase64(), contents);
-        emit appsChanged();
 
         holochain_dna_free(dna);
     }
@@ -111,4 +127,15 @@ App* Container::instantiate(QString app_hash) {
     App *app = new App(app_hash, this);
     m_app_instances.push_back(app);
     return app;
+}
+
+App* Container::loadAndInstantiate(QString path) {
+    Dna *dna = loadDnaFile(path);
+    if(!dna) {
+        std::cout << "No valid Holochain DNA file" << std::endl;
+        std::cout << QString("%1 is not a valid Holochain DNA file!").arg(path).toStdString() << std::endl;
+        return 0;
+    } else {
+        return new App(dna, this);
+    }
 }

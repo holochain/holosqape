@@ -21,6 +21,20 @@ App::App(QString hash, QObject *parent) : QObject(parent), m_hash(hash)
     }
 }
 
+
+App::App(Dna *dna, QObject *parent) : QObject(parent)
+{
+    m_dna = dna;
+    if(m_dna){
+        // need to clone a dna object because holochain_new() consumes it..
+        // Might wanna change that on the rust side?
+        Dna *dna_clone = holochain_dna_create_from_json(holochain_dna_to_json(m_dna));
+        m_instance = holochain_new(dna_clone);
+    } else {
+        m_instance = 0;
+    }
+}
+
 void App::start(){
     if(m_instance) {
         holochain_start(m_instance);

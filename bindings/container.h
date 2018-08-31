@@ -16,6 +16,7 @@ public:
     Q_INVOKABLE QString appName(QString app_hash);
     Q_INVOKABLE QList<App*> instances();
     Q_INVOKABLE App* instantiate(QString app_hash);
+    Q_INVOKABLE App* loadAndInstantiate(QString path);
 
 signals:
     void appsChanged();
