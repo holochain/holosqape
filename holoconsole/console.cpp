@@ -54,13 +54,24 @@ void Console::timeout() {
         return;
     }
 
-    m_callbacks[timer].call();
+    QJSValue result = m_callbacks[timer].call();
+    if(result.isError()) {
+        qCritical()
+                    << "Uncaught exception at line"
+                    << result.property("lineNumber").toInt()
+                    << ":" << result.toString() << "\n"
+                    << result.property("message").toString() << "\n"
+                    << result.property("stack").toString() << "\n";
+    }
+
     m_callbacks.remove(timer);
     timer->deleteLater();
 
     if(m_callbacks.isEmpty() && !m_interactive)
-        QCoreApplication::quit();
-
+        if(result.isError())
+            QCoreApplication::exit(1);
+        else
+            QCoreApplication::quit();
 }
 
 void Console::setInteractive(bool is_interactive) {
@@ -81,7 +92,7 @@ QJSValue Console::run_script_file(QString scriptPath) {
         scriptFile.close();
         QJSValue result = m_engine.evaluate(contents, m_script_path);
         if(result.isError()) {
-            qDebug()
+            qCritical()
                         << "Uncaught exception at line"
                         << result.property("lineNumber").toInt()
                         << ":" << result.toString() << "\n"
