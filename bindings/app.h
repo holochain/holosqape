@@ -23,6 +23,7 @@ class App : public QObject
 public:
     App();
     explicit App(QString hash, QObject *parent = nullptr);
+    explicit App(Dna* dna, QObject *parent = nullptr);
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE QString call(QString zome, QString capability, QString function, QString parameters);
