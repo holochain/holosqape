@@ -10,111 +10,49 @@ ApplicationWindow {
     height: 680
     visible: true
 
-
-    ScrollView {
-        horizontalScrollBarPolicy: 0
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: consoleOutput.top
-        anchors.margins: 20
-
-        Flickable {
-            ColumnLayout {
-                id: layout
-                anchors.fill: parent
-                Layout.bottomMargin: 150
-            }
-        }
-    }
-
-
-
-    TextArea {
-        id: consoleOutput
-        height: 100
-        antialiasing: true
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: consoleInput.top
-        readOnly: true
-    }
-
-
+    property var activeRootUI
 
     Rectangle {
-        id: consoleInput
-        height: 20
-        anchors.left: parent.left
+        id: mainView
+        anchors.top: parent.top
+        anchors.left: dock.right
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-
-        TextInput {
-            anchors.topMargin: 2
-            anchors.leftMargin: 5
-            cursorVisible: false
-            antialiasing: true
-            anchors.fill: parent
+        color: 'blue'
+    }
 
 
-            property var history: []
-            property int historyIndex: 0
 
-            onAccepted: {
-                try {
-                    var result = eval(this.text)
-                    consoleOutput.append("> "+text+"\n"+result)
-                } catch(e) {
-                    consoleOutput.append("> "+text+"\n"+e)
-                }
-                history.unshift(this.text)
-                this.text = ""
-                historyIndex = 0
+    Dock {
+        id: dock
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        onConsoleIconClicked: jsConsole.visible = !jsConsole.visible
+        onRootUISelected: function(rootUIName){
+            console.log(rootUIName)
+            var component = Qt.createComponent("rootUIs/"+rootUIName+"/main.qml");
+            while(component.status !== Component.Ready && component.status !== Component.Error){
+                console.log(component.status)
             }
+            console.log(component.errorString())
 
-            Keys.onPressed: {
-                if(event.key === Qt.Key_Up) {
-                    if(historyIndex < history.length){
-                        this.text = history[historyIndex]
-                        historyIndex++
-                    }
-                }
-
-                if(event.key === Qt.Key_Down) {
-                    historyIndex--
-                    if(historyIndex < 0) historyIndex = 0
-                    if(historyIndex < history.length){
-                        this.text = history[historyIndex]
-                    } else {
-                        this.text = ""
-                    }
-                }
-            }
+            activeRootUI = component.createObject(mainView, {
+              "anchors.fill": mainView
+            })
         }
     }
 
 
 
-    function buildMenu() {
-        var apps = Container.installedApps()
-        var component = Qt.createComponent("AppWidget.qml");
-        for(var i in apps) {
-            var hash = apps[i]
-            component.createObject(layout,
-                {
-                    hash: hash,
-                    name: Container.appName(hash),
-                    app: Container.instantiate(hash)
-                }
-            )
-            console.log(hash)
-        }
+    Console {
+        id: jsConsole
+        visible: false
+        anchors.left: dock.right
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
     }
 
-    Connections {
-        target: Container
-        onAppsChanged: buildMenu()
-    }
 
 
     Component.onCompleted: {
@@ -122,8 +60,6 @@ ApplicationWindow {
             Container.installApp(":/apps/test.json");
             Container.installApp(":/apps/info.json");
         }
-
-        buildMenu()
     }
 
     Loader {
