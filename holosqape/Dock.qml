@@ -10,7 +10,8 @@ Rectangle {
     Column {
         id: column
         anchors.fill: parent
-        padding: 5
+        padding: 8
+        spacing: 8
         Repeater {
             model: Container.rootUINames
             Image {
