@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.11
 
 Rectangle {
     id: root
@@ -7,30 +7,47 @@ Rectangle {
     signal consoleIconClicked()
     signal rootUISelected(string name)
 
+    Column {
+        id: column
+        anchors.fill: parent
+        padding: 5
+        Repeater {
+            model: Container.rootUINames
+            Image {
+                property string rootUIName: Container.rootUINames[index]
+                source: 'file://'+Container.rootUIsDirectoryPath()+'/'+rootUIName+'/dock_icon.png'
+                width: parent.width - parent.padding*2
+                height: width
 
-    Image {
-        source: 'images/blank.svg'
-        width: parent.width
-        height: parent.width
+                //anchors.top: root.top
 
-        anchors.top: root.top
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.rootUISelected('GenericUI')
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: root.rootUISelected(rootUIName)
+                }
+            }
         }
     }
 
-    Image {
-        source: 'images/console.png'
-        width: parent.width
-        height: parent.width
+    Column {
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        padding: column.padding
 
-        anchors.bottom: root.bottom
+        Image {
+            source: 'images/console.png'
+            width: parent.width - column.padding*2
+            height: width
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.consoleIconClicked()
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: root.consoleIconClicked()
+            }
         }
+
     }
+
+
 }

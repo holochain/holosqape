@@ -31,7 +31,7 @@ ApplicationWindow {
         onConsoleIconClicked: jsConsole.visible = !jsConsole.visible
         onRootUISelected: function(rootUIName){
             console.log(rootUIName)
-            var component = Qt.createComponent("rootUIs/"+rootUIName+"/main.qml");
+            var component = Qt.createComponent("file://"+Container.rootUIsDirectoryPath()+"/"+rootUIName+"/main.qml");
             while(component.status !== Component.Ready && component.status !== Component.Error){
                 console.log(component.status)
             }

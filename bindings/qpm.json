@@ -1,0 +1,5 @@
+{
+  "dependencies": [
+    "com.github.benlau.qtshell@0.4.5"
+  ]
+}

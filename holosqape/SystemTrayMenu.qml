@@ -16,6 +16,9 @@ Item {
             }
             MenuItem {
                 text: qsTr("Install new UI component...")
+                onTriggered: {
+                    uiDialog.open()
+                }
             }
             MenuSeparator{}
             MenuItem {
@@ -46,5 +49,21 @@ Item {
             Qt.quit()
         }
         visible: false
+    }
+
+    FileDialog {
+        id: uiDialog
+        title: "Please choose a QML component directory"
+        folder: shortcuts.home
+        onAccepted: {
+            console.log("You chose: " + uiDialog.fileUrls)
+            Container.installRootUI(uiDialog.fileUrls)
+        }
+        onRejected: {
+            console.log("Canceled")
+            Qt.quit()
+        }
+        visible: false
+        selectFolder: true
     }
 }
