@@ -2,7 +2,7 @@
 A multiplatform Holochain app container that runs in the background and is accessible via a system tray icon based on Qt, QML and the C bindings of [holochain-rust](https://github.com/holochain/holochain-rust).
 
 ![](holosqape/images/screenshots/system-tray.png)
-![](holosqape/images/screenshots/mainwindow2.png)
+![](holosqape/images/screenshots/mainwindow-with-dock.png)
 
 ## Dev Dependencies
 
@@ -135,3 +135,20 @@ node: {
 	setImmediate: false
 }
 ```
+
+## Root UI Components
+HoloSqape is the proto Holochain browser and thus makes it possible to add UIs in the form of QML components dynamically.
+
+Soon it will sport a general UI with sophisticated widget system (as described [here](https://medium.com/holochain/holochain-reinventing-applications-d2ac1e4f25ef)) that can talk to all installed Holochain apps alike and compose UI widgets as representations for app entries in the same scene. App developers will be able to ship Holochain apps with those entry components and HoloSqape will have a plugin system for these **widget components**.
+
+Currently it only supports installation and usage of **root components**.
+A root component is a full monolithic UI - similar to whole window or browser tab. HoloSqape shows the icon of a root component in the red docker bar on the left. Clickin an icon will load the component and have it replace the current full-screen UI.
+
+HoloSqape comes with a generic root component but more can be installed through the system tray menu. The file dialog expects a directory.
+
+**Root component directory contents:**
+
+* main.qml
+* docker_icon.png
+* (any other QML components used by main.qml)
+
