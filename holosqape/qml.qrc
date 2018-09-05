@@ -10,6 +10,7 @@
         <file>SystemTrayMenu.qml</file>
         <file>rootUIs/GenericUI/FunctionCallWidget.qml</file>
         <file>rootUIs/GenericUI/main.qml</file>
+        <file>rootUIs/GenericUI/dock_icon.png</file>
         <file>Console.qml</file>
         <file>Dock.qml</file>
         <file>images/console.png</file>

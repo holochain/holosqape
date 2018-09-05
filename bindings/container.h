@@ -33,6 +33,7 @@ signals:
 public slots:
     void installApp(QString path);
     void installRootUI(QString path);
+    void installBuildInRootUIs();
 
 private:
     QList<App*> m_app_instances;

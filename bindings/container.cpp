@@ -14,9 +14,16 @@
 
 Container::Container(QObject *parent) : QObject(parent)
 {
-    //m_rootUINames = new QStringListModel;
+    installBuildInRootUIs();
     m_rootUINames = installedRootUIs();
     emit rootUIsChanged();
+}
+
+void Container::installBuildInRootUIs() {
+    foreach(QFileInfo file_info, QDir(":/rootUIs").entryInfoList()) {
+        if(!rootUIsDirectory().exists(file_info.fileName()))
+            QtShell::cp("-a", file_info.absoluteFilePath(), rootUIsDirectory().canonicalPath());
+    }
 }
 
 Dna* loadDnaFile(QString path) {
