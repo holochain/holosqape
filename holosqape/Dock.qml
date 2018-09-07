@@ -2,7 +2,7 @@ import QtQuick 2.11
 
 Rectangle {
     id: root
-    color: 'red'
+    color: '#374ac7'
     width: 50
     signal consoleIconClicked()
     signal rootUISelected(string name)
