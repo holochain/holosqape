@@ -27,3 +27,6 @@ android {
 } else {
     LIBS += -L../holosqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 }
+
+
+include(vendor/vendor.pri)

@@ -4,13 +4,26 @@
 #include <QSettings>
 #include <QUrl>
 #include <iostream>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QDir>
+#include <QtShell>
 #include "../holochain-rust/dna_c_binding/include/dna_c_binding.h"
 #include "../holochain-rust/core_api_c_binding/include/core_api_c_binding.h"
 #include "app.h"
 
 Container::Container(QObject *parent) : QObject(parent)
 {
+    installBuildInRootUIs();
+    m_rootUINames = installedRootUIs();
+    emit rootUIsChanged();
+}
 
+void Container::installBuildInRootUIs() {
+    foreach(QFileInfo file_info, QDir(":/rootUIs").entryInfoList()) {
+        if(!rootUIsDirectory().exists(file_info.fileName()))
+            QtShell::cp("-a", file_info.absoluteFilePath(), rootUIsDirectory().canonicalPath());
+    }
 }
 
 Dna* loadDnaFile(QString path) {
@@ -56,10 +69,38 @@ void Container::installApp(QString path) {
     }
 }
 
+QString Container::rootUIsDirectoryPath() {
+    return rootUIsDirectory().canonicalPath();
+}
+
+QDir Container::rootUIsDirectory() {
+    QDir app_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    app_dir.mkpath("rootUIs");
+    return QDir(app_dir.absoluteFilePath("rootUIs"));
+}
+
+void Container::installRootUI(QString path) {
+    QtShell::cp("-a", QUrl(path).toLocalFile(), rootUIsDirectory().canonicalPath());
+    m_rootUINames = installedRootUIs();
+    emit rootUIsChanged();
+}
+
 QStringList Container::installedApps() {
     QSettings settings;
     settings.beginGroup("dnas");
     return settings.allKeys();
+}
+
+QStringList Container::installedRootUIs() {
+    QDir rootUIs_directory = rootUIsDirectory();
+
+    QStringList names;
+    foreach(QFileInfo file_info, rootUIs_directory.entryInfoList()) {
+        if(file_info.isDir() && !file_info.fileName().startsWith("."))
+            names << file_info.fileName();
+    }
+
+    return names;
 }
 
 Dna* getDna(QString app_hash) {
