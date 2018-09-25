@@ -1,3 +1,7 @@
 [submodule "holochain-rust"]
 	path = holochain-rust
 	url = https://github.com/holochain/holochain-rust
+[submodule "qtshell"]
+	path = bindings/vendor/com/github/benlau/qtshell
+	url = https://github.com/benlau/qtshell
+
