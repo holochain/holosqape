@@ -39,8 +39,11 @@ LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_
 android {
     LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
 } else {
-    LIBS += -L../../holosqape/holochain-rust/target/debug/
-
+    debug {
+        LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
+    } else {
+        LIBS += -L../../holosqape/holochain-rust/target/release/
+    }
 }
 
 RESOURCES += \
