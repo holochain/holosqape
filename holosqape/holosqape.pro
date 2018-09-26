@@ -37,7 +37,11 @@ android {
     LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
 } else {
     debug {
-        LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
+        macx {
+            LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
+        } else {
+            LIBS += -L../../holosqape/holochain-rust/target/debug/
+        }
     } else {
         LIBS += -L../../holosqape/holochain-rust/target/release/
     }
