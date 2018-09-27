@@ -67,11 +67,12 @@ void Console::timeout() {
     m_callbacks.remove(timer);
     timer->deleteLater();
 
-    if(m_callbacks.isEmpty() && !m_interactive)
+    if(m_callbacks.isEmpty() && !m_interactive) {
         if(result.isError())
             QCoreApplication::exit(1);
         else
             QCoreApplication::quit();
+    }
 }
 
 void Console::setInteractive(bool is_interactive) {
@@ -86,6 +87,8 @@ QJSValue Console::run_script_file(QString scriptPath) {
     QFile scriptFile(scriptPath);
     if (!scriptFile.open(QIODevice::ReadOnly)) {
         std::cout << "Could not open file " << scriptPath.toStdString() << "!" << std::endl;
+        if(!m_interactive) QCoreApplication::exit(1);
+        return QJSValue();
     } else {
         QTextStream stream(&scriptFile);
         QString contents = stream.readAll();
@@ -98,6 +101,13 @@ QJSValue Console::run_script_file(QString scriptPath) {
                         << ":" << result.toString() << "\n"
                         << result.property("message").toString() << "\n"
                         << result.property("stack").toString() << "\n";
+        }
+
+        if(m_callbacks.isEmpty() && !m_interactive) {
+            if(result.isError())
+                QCoreApplication::exit(1);
+            else
+                QCoreApplication::quit();
         }
 
         return result;
