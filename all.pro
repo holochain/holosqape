@@ -6,3 +6,4 @@ SUBDIRS = bindings \
             holoconsole
 holosqape.depends = bindings
 holoconsole.depends = bindings
+CONFIG += debug_and_release

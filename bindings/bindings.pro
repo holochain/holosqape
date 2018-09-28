@@ -1,6 +1,6 @@
 QT += quick
 TEMPLATE = lib
-CONFIG += c++11 staticlib
+CONFIG += c++11 staticlib debug_and_release
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -25,7 +25,16 @@ HEADERS += \
 android {
     LIBS += -L../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 } else {
-    LIBS += -L../holosqape/holochain-rust/target/debug/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    CONFIG(debug, debug|release) {
+        macx {
+            LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
+        } else {
+            LIBS += -L../../holosqape/holochain-rust/target/debug/
+        }
+    } else {
+        LIBS += -L../../holosqape/holochain-rust/target/release/
+    }
+    LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
 }
 
 
