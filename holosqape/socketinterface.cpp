@@ -8,7 +8,7 @@ SocketInterface::SocketInterface(QObject *parent) : QObject(parent),
     m_container(0)
 {
     //("192.168.1.100")
-    if (m_server.listen(QHostAddress("192.168.1.100"), 8888)) {
+    if (m_server.listen(QHostAddress(QHostAddress::LocalHost), 8888)) {
         std::cout << "Listening on port 8888" << std::endl;
     } else {
         std::cout << "Could not listen on port!" << std::endl;
