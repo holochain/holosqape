@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include "container.h"
 #include "app.h"
+#include "socketinterface.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     Container c;
+    SocketInterface s;
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Container", &c);
