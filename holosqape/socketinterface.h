@@ -18,6 +18,7 @@ public slots:
 private slots:
     void incomingConnection();
     void message_received(const QString &message);
+    void serverError(QWebSocketProtocol::CloseCode closeCode);
 
 private:
     QWebSocketServer m_server;
