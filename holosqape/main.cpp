@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 
     Container c;
     SocketInterface s;
+    s.setContainer(&c);
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("Container", &c);

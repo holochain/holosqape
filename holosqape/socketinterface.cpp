@@ -1,8 +1,11 @@
 #include "socketinterface.h"
 #include <iostream>
+#include <QJsonDocument>
+#include "app.h"
 
 SocketInterface::SocketInterface(QObject *parent) : QObject(parent),
-    m_server(QString("Holochain Container"), QWebSocketServer::NonSecureMode, this)
+    m_server(QString("Holochain Container"), QWebSocketServer::NonSecureMode, this),
+    m_container(0)
 {
     //("192.168.1.100")
     if (m_server.listen(QHostAddress("192.168.1.100"), 8888)) {
@@ -14,6 +17,11 @@ SocketInterface::SocketInterface(QObject *parent) : QObject(parent),
     QObject::connect(&m_server, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(serverError(QWebSocketProtocol::CloseCode)));
 
 }
+
+void SocketInterface::setContainer(Container* container) {
+    m_container = container;
+}
+
 
 void SocketInterface::incomingConnection() {
     std::cout << "Incoming connection.." << std::endl;
@@ -29,10 +37,73 @@ void SocketInterface::incomingConnection() {
 }
 
 void SocketInterface::message_received(const QString &message) {
-    std::cout << "Message:" << std::endl;
-    std::cout << message.toStdString();
+    std::cout << "Message: ";
+    std::cout << message.toStdString() << std::endl;
+
     QWebSocket* socket = qobject_cast<QWebSocket*>(sender());
-    socket->sendTextMessage(QString("From container with love: %1").arg(message));
+
+
+    QJsonDocument doc = QJsonDocument::fromJson(message.toUtf8());
+
+    if(!doc.isObject()) {
+        std::cout << "not an object" << std::endl;
+        socket->sendTextMessage(QString('{"error": "recevied non-JSON-object"}'));
+        return;
+    }
+
+    QJsonObject rpc = doc.object();
+
+    if(!rpc.contains("id")) {
+        std::cout << "no id giben" << std::endl;
+        socket->sendTextMessage(QString("{\"error\": \"missing id\"}"));
+        return;
+    }
+
+    if(!rpc.contains("method")) {
+        std::cout << "no method given" << std::endl;
+        socket->sendTextMessage(QString("{\"error\": \"missing method\", \"id\": %1}").arg(rpc.value("id").toInt()));
+        return;
+    }
+
+    if(!rpc.contains("params")) {
+        std::cout << "no params given" << std::endl;
+        socket->sendTextMessage(QString("{\"error\": \"missing params\", \"id\": %1}").arg(rpc.value("id").toInt()));
+        return;
+    }
+
+
+
+    std::cout << "got method and params" << std::endl;
+
+
+    QStringList method = rpc.value("method").toString().split("/");
+    QString dna = method[0];
+    QString zome = method[1];
+    QString cap = method[2];
+    QString function = method[3];
+    QString params = QJsonDocument(rpc.value("params").toObject()).toJson();
+
+    std::cout << "RPC good: " << std::endl;
+    std::cout << dna.toStdString() << " " << zome.toStdString() << " " << cap.toStdString() << " " << function.toStdString() << std::endl;
+    std::cout << params.toStdString() << std::endl;
+
+
+    App* app = m_container->instantiate(dna);
+
+    if(!app) {
+        std::cout << "app == 0" << std::endl;
+        socket->sendTextMessage(QString("{\"error\": \"could not instantiate app\", \"id\": %1}").arg(rpc.value("id").toInt()));
+        return;
+    }
+
+    app->start();
+
+    QString result = app->call(zome, cap, function, params);
+
+    socket->sendTextMessage(QString("{\"result\": %1, \"id\": %2}").arg(result).arg(rpc.value("id").toInt()));
+
+    std::cout << "Result: " << result.toStdString() << std::endl;
+
 }
 
 void SocketInterface::serverError(QWebSocketProtocol::CloseCode closeCode) {

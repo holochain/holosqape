@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QtWebSockets/QtWebSockets>
 #include <QList>
+#include <QJSEngine>
+#include "container.h"
 
 class SocketInterface : public QObject
 {
@@ -14,6 +16,7 @@ public:
 signals:
 
 public slots:
+    void setContainer(Container* container);
 
 private slots:
     void incomingConnection();
@@ -23,6 +26,7 @@ private slots:
 private:
     QWebSocketServer m_server;
     QList<QWebSocket*> m_web_sockets;
+    Container* m_container;
 };
 
 #endif // SOCKETINTERFACE_H
