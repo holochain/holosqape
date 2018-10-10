@@ -178,10 +178,24 @@ cd ..
 ```
 
 #### Adding `holoconsole` to your $PATH
-...
+
+In order to be able to utilize the `holoconsole` binary from any directory in the terminal, the folder containing the binary should be added to the $PATH environment variable in use by your terminal.
+
+##### On MacOS and Linux
+Depending on your configuration, you should have either a `.profile` or `.bash_profile` file.
+
+Assuming that the the repository was cloned into your HOME directory (`~`), you would add the following line to your terminal profile file, using a text editor. Change `$HOME/holosqape/holoconsole` to point to the actual `holoconsole` sub-directory on your computer, if it's different than that.
+
+`export PATH="$HOME/holosqape/holoconsole:$PATH"`
+
+Save the file, and open a new terminal window, or use
+`source .profile` or `source .bash_profile` to refresh the $PATH in your current terminal window.
+
+##### On Windows
+Coming soon...
 
 #### Troubleshooting
-...
+If you run into issues relating to the `qmake` command, try deleting `.qmake.stash`, and rerunning the intended command. Sometimes bad configurations get cached.
 
 ## Contribute
 Holochain is an open source project.  We welcome all sorts of participation and are actively working on increasing surface area to accept it.  Please see our [contributing guidelines](https://github.com/holochain/org/blob/master/CONTRIBUTING.md) for our general practices and protocols on participating in the community.
