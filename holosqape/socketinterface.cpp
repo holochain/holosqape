@@ -47,14 +47,14 @@ void SocketInterface::message_received(const QString &message) {
 
     if(!doc.isObject()) {
         std::cout << "not an object" << std::endl;
-        socket->sendTextMessage(QString('{"error": "recevied non-JSON-object"}'));
+        socket->sendTextMessage(QString('{"error": "receveid non-JSON-object"}'));
         return;
     }
 
     QJsonObject rpc = doc.object();
 
     if(!rpc.contains("id")) {
-        std::cout << "no id giben" << std::endl;
+        std::cout << "no id given" << std::endl;
         socket->sendTextMessage(QString("{\"error\": \"missing id\"}"));
         return;
     }
