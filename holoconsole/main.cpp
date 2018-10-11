@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
     QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", QCoreApplication::translate("main", "Open interactive shell"));
     parser.addOption(interactiveOption);
 
+    QCommandLineOption websocketOption(QStringList() << "w" << "websocket-interface", QCoreApplication::translate("main", "Open WebSocket interface for web based UIs on given port"));
+    parser.addOption(websocketOption);
+
 
     // An option with a value
     QCommandLineOption targetDirectoryOption(QStringList() << "t" << "target-directory",
@@ -62,6 +65,10 @@ int main(int argc, char *argv[])
     }
 
     QTimer::singleShot(1, console, SLOT(run()));
+
+    if (parser.isSet(websocketOption)) {
+        console->startWebSocketServer();
+    }
 
     return app.exec();
 }
