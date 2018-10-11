@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QtWebSockets/QtWebSockets>
 #include <QList>
-#include <QJSEngine>
+#include <QJsonValue>
 #include "container.h"
 
 class SocketInterface : public QObject
@@ -27,6 +27,8 @@ private:
     QWebSocketServer m_server;
     QList<QWebSocket*> m_web_sockets;
     Container* m_container;
+
+    QJsonObject executeRPC(QJsonObject rpc);
 };
 
 #endif // SOCKETINTERFACE_H

@@ -13,7 +13,8 @@ SocketInterface::SocketInterface(QObject *parent) : QObject(parent),
     }
     QObject::connect(&m_server, SIGNAL(newConnection()), this, SLOT(incomingConnection()));
     QObject::connect(&m_server, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(serverError(QWebSocketProtocol::CloseCode)));
-
+    //QObject::connect(&m_webSocket, QOverload<const QList<QSslError>&>::of(&QWebSocket::sslErrors),
+              //this, &SslEchoClient::onSslErrors);
 }
 
 void SocketInterface::setContainer(Container* container) {
@@ -71,30 +72,45 @@ void SocketInterface::message_received(const QString &message) {
 
     qDebug() << "RPC Request: " << message;
 
+    QJsonObject result = executeRPC(rpc);
+    QString string_result = QJsonDocument(result).toJson();
+
+    socket->sendTextMessage(string_result);
+
+    qDebug() << "RPC Result: " << string_result;
+}
+
+QJsonObject SocketInterface::executeRPC(QJsonObject rpc) {
+    QJsonObject result;
+    result["id"] = rpc["id"].toInt();
+
     QStringList method = rpc.value("method").toString().split("/");
-    QString dna = method[0];
-    QString zome = method[1];
-    QString cap = method[2];
-    QString function = method[3];
-    QString params = QJsonDocument(rpc.value("params").toObject()).toJson();
+    if(method.length() == 4) {
+        QString dna = method[0];
+        QString zome = method[1];
+        QString cap = method[2];
+        QString function = method[3];
+        QString params = QJsonDocument(rpc.value("params").toObject()).toJson();
 
 
-    App* app = m_container->instantiate(dna);
+        App* app = m_container->instantiate(dna);
 
-    if(!app) {
-        qDebug() << "app == 0";
-        socket->sendTextMessage(QString("{\"error\": \"could not instantiate app\", \"id\": %1}").arg(rpc.value("id").toInt()));
-        return;
+        if(!app) {
+            qDebug() << "app == 0";
+            result["error"] = "could not instantiate app";
+            return result;
+        }
+
+        app->start();
+
+        QString result_string = app->call(zome, cap, function, params);
+
+        result["result"] = result_string;
+
+    } else {
+        result["error"] = "Unrecognized method";
     }
-
-    app->start();
-
-    QString result = app->call(zome, cap, function, params);
-
-    socket->sendTextMessage(QString("{\"result\": %1, \"id\": %2}").arg(result).arg(rpc.value("id").toInt()));
-
-    qDebug() << "RPC Result: " << result;
-
+    return result;
 }
 
 void SocketInterface::serverError(QWebSocketProtocol::CloseCode closeCode) {
