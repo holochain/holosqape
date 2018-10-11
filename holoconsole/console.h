@@ -14,6 +14,7 @@
 #include <QMetaObject>
 #include <QQmlApplicationEngine>
 #include <QHash>
+#include "socketinterface.h"
 
 class Console : public QObject
 {
@@ -34,6 +35,7 @@ public slots:
     void setInteractive(bool is_interactive);
     void setScriptPath(QString script_path);
     void run();
+    void startWebSocketServer(uint port);
 
 private:
     QJSValue run_script_file(QString scriptPath);
@@ -43,6 +45,7 @@ private:
     QJSEngine m_engine;
     Container m_container;
     QHash<QTimer*, QJSValue> m_callbacks;
+    SocketInterface* m_socket_interface;
 };
 
 #endif // SCRIPTTIMER_H

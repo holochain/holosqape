@@ -15,12 +15,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     container.cpp \
-    app.cpp
+    app.cpp \
+    socketinterface.cpp
 
 
 HEADERS += \
     container.h \
-    app.h
+    app.h \
+    socketinterface.h
 
 android {
     LIBS += -L../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl

@@ -20,6 +20,9 @@ int main(int argc, char *argv[])
     QCommandLineOption interactiveOption(QStringList() << "i" << "interactive", QCoreApplication::translate("main", "Open interactive shell"));
     parser.addOption(interactiveOption);
 
+    QCommandLineOption websocketOption(QStringList() << "w" << "websocket-interface", QCoreApplication::translate("main", "Open WebSocket interface for web based UIs on given port"), "port");
+    parser.addOption(websocketOption);
+
 
     // An option with a value
     QCommandLineOption targetDirectoryOption(QStringList() << "t" << "target-directory",
@@ -35,7 +38,7 @@ int main(int argc, char *argv[])
 
     bool interactive = parser.isSet(interactiveOption);
 
-    if(parser.isSet(helpOption) ){
+    if(parser.isSet(helpOption)){
         parser.showHelp();
     }
 
@@ -44,9 +47,8 @@ int main(int argc, char *argv[])
     }
 
     const QStringList positionalArguments = parser.positionalArguments();
-    if (positionalArguments.isEmpty() && !interactive) {
-        std::cout << "Argument 'script' missing." << std::endl;
-        return 1;
+    if (positionalArguments.isEmpty() && !parser.isSet(versionOption) && !parser.isSet(helpOption)) {
+        interactive = true;
     }
     if (positionalArguments.size() > 1) {
         std::cout << "Several 'script' arguments specified." << std::endl;
@@ -54,7 +56,7 @@ int main(int argc, char *argv[])
     }
 
     Console *console = new Console;
-    console->setInteractive(parser.isSet(interactiveOption));
+    console->setInteractive(interactive);
 
     if (positionalArguments.size() == 1) {
         QString scriptPath = positionalArguments.first();
@@ -62,6 +64,11 @@ int main(int argc, char *argv[])
     }
 
     QTimer::singleShot(1, console, SLOT(run()));
+
+    if (parser.isSet(websocketOption)) {
+        uint port = parser.value(websocketOption).toUInt();
+        console->startWebSocketServer(port);
+    }
 
     return app.exec();
 }

@@ -2,7 +2,7 @@
 #include <QTimer>
 #include <QJSEngine>
 
-Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this)
+Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this), m_socket_interface(0)
 {
     QJSValue container = m_engine.newQObject(&m_container);
     QJSValue console = m_engine.newQObject(this);
@@ -135,4 +135,14 @@ void Console::run() {
     }
 
     QTimer::singleShot(1, this, SLOT(run()));
+}
+
+void Console::startWebSocketServer(uint port) {
+    if(m_socket_interface) {
+        qDebug() << "Socket interface already running";
+        return;
+    }
+
+    m_socket_interface = new SocketInterface(this, port);
+    m_socket_interface->setContainer(&m_container);
 }
