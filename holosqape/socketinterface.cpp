@@ -70,6 +70,13 @@ void SocketInterface::message_received(const QString &message) {
         return;
     }
 
+    if(!rpc["params"].isObject()) {
+        qDebug() << "Received RPC with params not being an object:";
+        qDebug() << message;
+        socket->sendTextMessage(QString("{\"error\": \"expect params to be an object\", \"id\": %1}").arg(rpc.value("id").toInt()));
+        return;
+    }
+
     qDebug() << "RPC Request: " << message;
 
     QJsonObject result = executeRPC(rpc);
