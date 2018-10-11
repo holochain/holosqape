@@ -92,16 +92,17 @@ QJsonObject SocketInterface::executeRPC(QJsonObject rpc) {
         QString function = method[3];
         QString params = QJsonDocument(rpc.value("params").toObject()).toJson();
 
-
-        App* app = m_container->instantiate(dna);
+        App* app = 0;
+        foreach(App* a, m_container->instances()){
+            if(a->hash() == dna)
+                app = a;
+        }
 
         if(!app) {
             qDebug() << "app == 0";
-            result["error"] = "could not instantiate app";
+            result["error"] = QString("could not find running instance with hash %1").arg(dna);
             return result;
         }
-
-        app->start();
 
         QString result_string = app->call(zome, cap, function, params);
 
