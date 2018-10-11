@@ -1,4 +1,4 @@
-QT += qml concurrent
+QT += qml concurrent websockets
 CONFIG += c++11
 CONFIG -= qtquickcompiler
 CONFIG += console
