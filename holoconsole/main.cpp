@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     bool interactive = parser.isSet(interactiveOption);
 
-    if(parser.isSet(helpOption) ){
+    if(parser.isSet(helpOption)){
         parser.showHelp();
     }
 
@@ -47,9 +47,8 @@ int main(int argc, char *argv[])
     }
 
     const QStringList positionalArguments = parser.positionalArguments();
-    if (positionalArguments.isEmpty() && !interactive) {
-        std::cout << "Argument 'script' missing." << std::endl;
-        return 1;
+    if (positionalArguments.isEmpty() && !parser.isSet(versionOption) && !parser.isSet(helpOption)) {
+        interactive = true;
     }
     if (positionalArguments.size() > 1) {
         std::cout << "Several 'script' arguments specified." << std::endl;
@@ -57,7 +56,7 @@ int main(int argc, char *argv[])
     }
 
     Console *console = new Console;
-    console->setInteractive(parser.isSet(interactiveOption));
+    console->setInteractive(interactive);
 
     if (positionalArguments.size() == 1) {
         QString scriptPath = positionalArguments.first();
