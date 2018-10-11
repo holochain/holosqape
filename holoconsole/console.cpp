@@ -137,12 +137,12 @@ void Console::run() {
     QTimer::singleShot(1, this, SLOT(run()));
 }
 
-void Console::startWebSocketServer() {
+void Console::startWebSocketServer(uint port) {
     if(m_socket_interface) {
         qDebug() << "Socket interface already running";
         return;
     }
 
-    m_socket_interface = new SocketInterface(this);
+    m_socket_interface = new SocketInterface(this, port);
     m_socket_interface->setContainer(&m_container);
 }

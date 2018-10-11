@@ -2,14 +2,14 @@
 #include <QJsonDocument>
 #include "app.h"
 
-SocketInterface::SocketInterface(QObject *parent) : QObject(parent),
+SocketInterface::SocketInterface(QObject *parent, uint port) : QObject(parent),
     m_server(QString("Holochain Container"), QWebSocketServer::NonSecureMode, this),
     m_container(0)
 {
-    if (m_server.listen(QHostAddress(QHostAddress::LocalHost), 8888)) {
-        qDebug() << "Listening on ws://localhost:8888";
+    if (m_server.listen(QHostAddress(QHostAddress::LocalHost), port)) {
+        qDebug() << "Listening on ws://localhost:" << port;
     } else {
-        qDebug() << "Could not listen on port 8888!";
+        qDebug() << "Could not listen on port " << port << "!";
     }
     QObject::connect(&m_server, SIGNAL(newConnection()), this, SLOT(incomingConnection()));
     QObject::connect(&m_server, SIGNAL(serverError(QWebSocketProtocol::CloseCode)), this, SLOT(serverError(QWebSocketProtocol::CloseCode)));

@@ -35,7 +35,7 @@ public slots:
     void setInteractive(bool is_interactive);
     void setScriptPath(QString script_path);
     void run();
-    void startWebSocketServer();
+    void startWebSocketServer(uint port);
 
 private:
     QJSValue run_script_file(QString scriptPath);

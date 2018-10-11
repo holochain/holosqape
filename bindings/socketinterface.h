@@ -11,7 +11,7 @@ class SocketInterface : public QObject
 {
     Q_OBJECT
 public:
-    explicit SocketInterface(QObject *parent = nullptr);
+    explicit SocketInterface(QObject *parent = nullptr, uint port = 8888);
 
 signals:
 
