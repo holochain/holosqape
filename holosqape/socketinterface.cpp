@@ -106,7 +106,7 @@ QJsonObject SocketInterface::executeRPC(QJsonObject rpc) {
 
         QString result_string = app->call(zome, cap, function, params);
 
-        result["result"] = result_string;
+        result["result"] = QJsonDocument::fromJson(result_string.toUtf8()).object();
 
     } else {
         result["error"] = "Unrecognized method";
