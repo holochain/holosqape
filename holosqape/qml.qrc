@@ -5,8 +5,6 @@
         <file>images/Holochain600cropped+alpha.png</file>
         <file>rootUIs/GenericUI/AppWidget.qml</file>
         <file>images/HoloSqape-system-tray.png</file>
-        <file>apps/test.json</file>
-        <file>apps/info.json</file>
         <file>SystemTrayMenu.qml</file>
         <file>rootUIs/GenericUI/FunctionCallWidget.qml</file>
         <file>rootUIs/GenericUI/main.qml</file>
@@ -15,5 +13,6 @@
         <file>Dock.qml</file>
         <file>images/console.png</file>
         <file>images/blank.svg</file>
+        <file>apps/app-spec-rust.hcpkg</file>
     </qresource>
 </RCC>
