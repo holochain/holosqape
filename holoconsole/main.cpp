@@ -57,6 +57,8 @@ int main(int argc, char *argv[])
 
     Console *console = new Console;
     console->setInteractive(interactive);
+    if(interactive)
+        console->printHeader();
 
     if (positionalArguments.size() == 1) {
         QString scriptPath = positionalArguments.first();

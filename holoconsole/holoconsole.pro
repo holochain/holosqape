@@ -53,3 +53,6 @@ android {
 
 RESOURCES += \
     qml.qrc
+
+DISTFILES += \
+    header.txt

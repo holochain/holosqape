@@ -114,6 +114,23 @@ QJSValue Console::run_script_file(QString scriptPath) {
     }
 }
 
+void Console::printHeader() {
+    QFile header(":/header.txt");
+    if(!header.open(QIODevice::ReadOnly)) {
+        qDebug()<<"Could not open header file"<<endl;
+    }
+    else
+    {
+        QTextStream in(&header);
+        while (!in.atEnd())
+        {
+           QString line = in.readLine();
+           std::cout << line.toStdString() << std::endl;
+        }
+        header.close();
+    }
+}
+
 void Console::run() {
 
     if (m_script_path != "") {

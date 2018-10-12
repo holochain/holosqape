@@ -36,6 +36,7 @@ public slots:
     void setScriptPath(QString script_path);
     void run();
     void startWebSocketServer(uint port);
+    void printHeader();
 
 private:
     QJSValue run_script_file(QString scriptPath);
