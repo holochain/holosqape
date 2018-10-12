@@ -36,9 +36,9 @@
 ================================================================================
 
 Welcome to the Holochain CLI Container.
-This is a full container implementation that allows to install and instantiate
-multiple Holochain Genomes and provides means to call zome functions in active
-Holochain instances.
+This is a full container implementation that allows youy to install and
+instantiate multiple Holochain Genomes and provides means to call zome functions
+in active Holochain instances.
 
 To get started, try:
 
