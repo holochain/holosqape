@@ -10,7 +10,7 @@ This repository contains two different containers, both based on the same Qt <> 
 
 `Holosqape` is for the installation and execution of hApps, including their user interfaces. The container runs in the background and is accessible via a system tray icon.
 
-`Holoconsole` is an environment for running Genome and Zome tests, including scenario integration tests. It has some compatibility shims to enable running JavaScript libraries such as [Tape](https://github.com/substack/tape).
+`Hcshell` is an environment for running Genome and Zome tests, including scenario integration tests. It has some compatibility shims to enable running JavaScript libraries such as [Tape](https://github.com/substack/tape).
 
 You can read more about these below, or skip straight to [installation](#installation).
 
@@ -36,12 +36,12 @@ HoloSqape comes with a generic root component but more can be installed through 
 * docker_icon.png
 * (any other QML components used by main.qml)
 
-## Holoconsole
+## Hcshell
 
-`holoconsole` is a command line tool for executing javascript files that perform scenario and unit testing for Holochain Genomes and their Zomes. Once `holoconsole` is installed ([see below](#installation)) it is called from a command line, and passed a JS file to execute. In terms of Javascript syntax, ES5 is safe, but check the [QJSEngine documentation](http://doc.qt.io/qt-5/qtqml-javascript-functionlist.html) to be completely sure of syntax compatibility.
+`hcshell` is a command line tool for executing javascript files that perform scenario and unit testing for Holochain Genomes and their Zomes. Once `hcshell` is installed ([see below](#installation)) it is called from a command line, and passed a JS file to execute. In terms of Javascript syntax, ES5 is safe, but check the [QJSEngine documentation](http://doc.qt.io/qt-5/qtqml-javascript-functionlist.html) to be completely sure of syntax compatibility.
 
-### How To Use Holoconsole
-In order to test a Holochain app we need a JS script that we run in `holoconsole`. The script engine adds a global object `Container` to the context before loading and running the user script. The `Container` object currently has the following methods (note that while this is pre-release, this API is completely subject to change):
+### How To Use Hcshell
+In order to test a Holochain app we need a JS script that we run in `hcshell`. The script engine adds a global object `Container` to the context before loading and running the user script. The `Container` object currently has the following methods (note that while this is pre-release, this API is completely subject to change):
 
 * installedApps()
 * instantiate(dnaHash)
@@ -106,7 +106,7 @@ git submodule update
 
 There are a couple of installation variants that follow, pick the ones that suits your needs.
 
-Whether installing `holosqape`, `holoconsole` or both, you need to compile Holochain.
+Whether installing `holosqape`, `hcshell` or both, you need to compile Holochain.
 
 #### HC Build Option 1: Building for release use
 
@@ -125,9 +125,9 @@ cargo build
 cd ..
 ```
 
-#### Qt Build Option 1: Installing Holosqape AND Holoconsole
+#### Qt Build Option 1: Installing Holosqape AND Hcshell
 
-You can either use [Qt Creator](https://en.wikipedia.org/wiki/Qt_Creator) to build Holoconsole and Holosqape, or the command line.
+You can either use [Qt Creator](https://en.wikipedia.org/wiki/Qt_Creator) to build Hcshell and Holosqape, or the command line.
 
 ##### Sub-Option 1: Install them with Qt Creator
 Open Qt Creator and open the top level folder as a project there. Select the `all.pro` file and build it. This is a good option if you want to build for Android or iOS.
@@ -150,7 +150,7 @@ After one of those two options has completed, run the following, which compiles 
 
 Just make sure you run matching build configurations (i.e. debug/release).
 
-#### Qt Build Option 2: Installing ONLY Holoconsole or Holosqape
+#### Qt Build Option 2: Installing ONLY Hcshell or Holosqape
 
 Here, we will only cover the CLI approach to building one or the other. In either case, the `bindings` need to be compiled:
 
@@ -161,9 +161,9 @@ make
 cd ..
 ```
 
-##### Sub-Option 1: Build holoconsole only
+##### Sub-Option 1: Build hcshell only
 ```shell
-cd holoconsole
+cd hcshell
 qmake # or with CONFIG+=debug
 make
 cd ..
@@ -177,16 +177,16 @@ make
 cd ..
 ```
 
-#### Adding `holoconsole` to your $PATH
+#### Adding `hcshell` to your $PATH
 
-In order to be able to utilize the `holoconsole` binary from any directory in the terminal, the folder containing the binary should be added to the $PATH environment variable in use by your terminal.
+In order to be able to utilize the `hcshell` binary from any directory in the terminal, the folder containing the binary should be added to the $PATH environment variable in use by your terminal.
 
 ##### On MacOS and Linux
 Depending on your configuration, you should have either a `.profile` or `.bash_profile` file.
 
-Assuming that the the repository was cloned into your HOME directory (`~`), you would add the following line to your terminal profile file, using a text editor. Change `$HOME/holosqape/holoconsole` to point to the actual `holoconsole` sub-directory on your computer, if it's different than that.
+Assuming that the the repository was cloned into your HOME directory (`~`), you would add the following line to your terminal profile file, using a text editor. Change `$HOME/holosqape/hcshell` to point to the actual `hcshell` sub-directory on your computer, if it's different than that.
 
-`export PATH="$HOME/holosqape/holoconsole:$PATH"`
+`export PATH="$HOME/holosqape/hcshell:$PATH"`
 
 Save the file, and open a new terminal window, or use
 `source .profile` or `source .bash_profile` to refresh the $PATH in your current terminal window.
