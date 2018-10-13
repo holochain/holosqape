@@ -4,3 +4,16 @@ HoloSqape\.pro\.user
 all\.pro\.user
 app-test-scaffold/node_modules
 .qmake.stash
+bindings/debug
+bindings/Makefile
+bindings/Makefile.Debug
+bindings/Makefile.Release
+bindings/libbindings.a
+holosqape/debug
+holosqape/Makefile
+holosqape/Makefile.Debug
+holosqape/Makefile.Release
+hcshell/debug
+hcshell/Makefile
+hcshell/Makefile.Debug
+hcshell/Makefile.Release

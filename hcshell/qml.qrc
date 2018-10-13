@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>shims.js</file>
+        <file>header.txt</file>
+    </qresource>
+</RCC>

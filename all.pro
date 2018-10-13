@@ -3,7 +3,7 @@
 TEMPLATE = subdirs
 SUBDIRS = bindings \
             holosqape \
-            holoconsole
+            hcshell
 holosqape.depends = bindings
-holoconsole.depends = bindings
+hcshell.depends = bindings
 CONFIG += debug_and_release
