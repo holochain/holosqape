@@ -10,7 +10,7 @@ This repository contains two different containers, both based on the same Qt <> 
 
 `Holosqape` is for the installation and execution of hApps, including their user interfaces. The container runs in the background and is accessible via a system tray icon.
 
-`Hcshell` is an environment for running Genome and Zome tests, including scenario integration tests. It has some compatibility shims to enable running JavaScript libraries such as [Tape](https://github.com/substack/tape).
+`Hcshell` is an environment for running DNA and Zome tests, including scenario integration tests. It has some compatibility shims to enable running JavaScript libraries such as [Tape](https://github.com/substack/tape).
 
 You can read more about these below, or skip straight to [installation](#installation).
 
@@ -38,7 +38,7 @@ HoloSqape comes with a generic root component but more can be installed through 
 
 ## Hcshell
 
-`hcshell` is a command line tool for executing javascript files that perform scenario and unit testing for Holochain Genomes and their Zomes. Once `hcshell` is installed ([see below](#installation)) it is called from a command line, and passed a JS file to execute. In terms of Javascript syntax, ES5 is safe, but check the [QJSEngine documentation](http://doc.qt.io/qt-5/qtqml-javascript-functionlist.html) to be completely sure of syntax compatibility.
+`hcshell` is a command line tool for executing javascript files that perform scenario and unit testing for Holochain DNAs and their Zomes. Once `hcshell` is installed ([see below](#installation)) it is called from a command line, and passed a JS file to execute. In terms of Javascript syntax, ES5 is safe, but check the [QJSEngine documentation](http://doc.qt.io/qt-5/qtqml-javascript-functionlist.html) to be completely sure of syntax compatibility.
 
 ### How To Use Hcshell
 In order to test a Holochain app we need a JS script that we run in `hcshell`. The script engine adds a global object `Container` to the context before loading and running the user script. The `Container` object currently has the following methods (note that while this is pre-release, this API is completely subject to change):
