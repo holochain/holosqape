@@ -8,9 +8,11 @@ Multiplatform Holochain containers for the installation and execution of hApps b
 
 This repository contains two different containers, both based on the same Qt <> C bindings of `holochain-rust`. There are several sub directories in this repo containing separate sub projects.
 
-`Holosqape` is for the installation and execution of hApps, including their user interfaces. The container runs in the background and is accessible via a system tray icon.
+[Holosqape](#holosqape) is for the installation and execution of hApps, including their user interfaces. The container runs in the background and is accessible via a system tray icon.
 
-`Hcshell` is an environment for running DNA and Zome tests, including scenario integration tests. It has some compatibility shims to enable running JavaScript libraries such as [Tape](https://github.com/substack/tape).
+[Hcshell](#hcshell) shares its configuration with HoloSqape, but allows CLI driven installation and execution of apps. This provides, among other things, an environment for running DNA and Zome tests, including multi-user scenario tests.
+
+Both of these also enable the usage of a [websocket](#websockets) based connection, and the calling of Holochain Zome functions from there, opening up all the possibilities of web based UIs and beyond.
 
 You can read more about these below, or skip straight to [installation](#installation).
 
@@ -87,8 +89,9 @@ console.log("hello testing");
 ```
 
 To execute that script file with the container, run the following:
-```
+```shell
 hcshell hello-testing.js
+# output: hello testing
 ```
 
 The argument `hello-testing.js` given is the relative path to the file to be executed.
