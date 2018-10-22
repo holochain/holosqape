@@ -22,8 +22,8 @@ class App : public QObject
     Q_OBJECT
 public:
     App();
-    explicit App(QString hash, QObject *parent = nullptr);
-    explicit App(Dna* dna, QObject *parent = nullptr);
+    explicit App(QString hash, QString storage_path, QObject *parent = nullptr);
+    explicit App(Dna* dna, QString storage_path, QObject *parent = nullptr);
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();
     Q_INVOKABLE QString call(QString zome, QString capability, QString function, QString parameters);
@@ -33,6 +33,7 @@ public:
     Q_INVOKABLE QStringList parameter_names(QString zome, QString capability, QString function);
     Q_INVOKABLE QString hash() const;
     Q_INVOKABLE QString name() const;
+    static App* load(QString hash, QString storage_path);
 
 signals:
 
