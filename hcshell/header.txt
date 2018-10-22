@@ -42,10 +42,10 @@ in active Holochain instances.
 
 To get started, try:
 
-var genome_hashes = Container.installedApps()
-var genome_instance = Container.instantiate(genome_hashes[0])
-console.log("Found genome: " + genome_instance.name())
-genome_instance.start()
-genome_instance.call("zome_name", "capability_name", "function_name", "{\"parameter\":\"test\"}")
+var dna_hashes = Container.installedApps()
+var dna_instance = Container.instantiate(dna_hashes[0])
+console.log("Found dna: " + dna_instance.name())
+dna_instance.start()
+dna_instance.call("zome_name", "capability_name", "function_name", "{\"parameter\":\"test\"}")
 ...
 
