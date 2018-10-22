@@ -116,7 +116,15 @@ App* App::load(QString hash, QString storage_path) {
     Dna *dna = getDna(hash);
     if(!dna) return 0;
     App *app = new App;
+    //
+    // TODO: Use holochain_load
+    //
+    // This should be:
+    // app->m_instance = holochain_load(storage_path.toStdString().c_str());
+    // But holochain_load is not implemented on Rust side yet.
+    // Replace this line as soon as it is.
     app->m_instance = holochain_new(dna, storage_path.toStdString().c_str());
+
     // need to recreate a dna object because holochain_new() consumes it..
     // Might wanna change that on the rust side?
     app->m_dna = getDna(hash);
