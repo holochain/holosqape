@@ -23,7 +23,9 @@ public:
     Q_INVOKABLE App* instantiate(QString app_hash);
     Q_INVOKABLE App* loadAndInstantiate(QString path);
     Q_INVOKABLE QString rootUIsDirectoryPath();
+    Q_INVOKABLE QString instancesDirectoryPath();
     QDir rootUIsDirectory();
+    QDir instancesDirectory();
 
 
 signals:

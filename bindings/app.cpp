@@ -8,11 +8,11 @@ App::App() : QObject(0) {
     m_instance = 0;
 }
 
-App::App(QString hash, QObject *parent) : QObject(parent), m_hash(hash)
+App::App(QString hash, QString storage_path, QObject *parent) : QObject(parent), m_hash(hash)
 {
     m_dna = getDna(m_hash);
     if(m_dna){
-        m_instance = holochain_new(m_dna);
+        m_instance = holochain_new(m_dna, storage_path.toStdString().c_str());
         // need to recreate a dna object because holochain_new() consumes it..
         // Might wanna change that on the rust side?
         m_dna = getDna(m_hash);
@@ -22,14 +22,14 @@ App::App(QString hash, QObject *parent) : QObject(parent), m_hash(hash)
 }
 
 
-App::App(Dna *dna, QObject *parent) : QObject(parent)
+App::App(Dna *dna, QString storage_path, QObject *parent) : QObject(parent)
 {
     m_dna = dna;
     if(m_dna){
         // need to clone a dna object because holochain_new() consumes it..
         // Might wanna change that on the rust side?
         Dna *dna_clone = holochain_dna_create_from_json(holochain_dna_to_json(m_dna));
-        m_instance = holochain_new(dna_clone);
+        m_instance = holochain_new(dna_clone, storage_path.toStdString().c_str());
     } else {
         m_instance = 0;
     }
@@ -112,3 +112,13 @@ QString App::name() const {
     return name;
 }
 
+App* App::load(QString hash, QString storage_path) {
+    Dna *dna = getDna(hash);
+    if(!dna) return 0;
+    App *app = new App;
+    app->m_instance = holochain_new(dna, storage_path.toStdString().c_str());
+    // need to recreate a dna object because holochain_new() consumes it..
+    // Might wanna change that on the rust side?
+    app->m_dna = getDna(hash);
+    return app;
+}

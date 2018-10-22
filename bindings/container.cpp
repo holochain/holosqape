@@ -73,10 +73,20 @@ QString Container::rootUIsDirectoryPath() {
     return rootUIsDirectory().canonicalPath();
 }
 
+QString Container::instancesDirectoryPath() {
+    return instancesDirectory().canonicalPath();
+}
+
 QDir Container::rootUIsDirectory() {
     QDir app_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     app_dir.mkpath("rootUIs");
     return QDir(app_dir.absoluteFilePath("rootUIs"));
+}
+
+QDir Container::instancesDirectory() {
+    QDir app_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
+    app_dir.mkpath("instances");
+    return QDir(app_dir.absoluteFilePath("instances"));
 }
 
 void Container::installRootUI(QString path) {
@@ -161,11 +171,18 @@ QList<App*> Container::instances() {
 }
 
 App* Container::instantiate(QString app_hash) {
-    Dna *dna = getDna(app_hash);
-    if(!dna) return 0;
-    holochain_dna_free(dna);
+    App *app;
+    QString storage_path = instancesDirectory().absoluteFilePath(app_hash);
+    if(instancesDirectory().exists(app_hash)) {
+        app = App::load(app_hash, storage_path);
+    } else {
+        Dna *dna = getDna(app_hash);
+        if(!dna) return 0;
+        holochain_dna_free(dna);
+        instancesDirectory().mkpath(app_hash);
+        app = new App(app_hash, storage_path, this);
+    }
 
-    App *app = new App(app_hash, this);
     m_app_instances.push_back(app);
     return app;
 }
@@ -177,6 +194,6 @@ App* Container::loadAndInstantiate(QString path) {
         std::cout << QString("%1 is not a valid Holochain DNA file!").arg(path).toStdString() << std::endl;
         return 0;
     } else {
-        return new App(dna, this);
+        return new App(dna, QStandardPaths::writableLocation(QStandardPaths::TempLocation), this);
     }
 }
