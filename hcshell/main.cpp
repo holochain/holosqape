@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("Holochain");
     QCoreApplication::setOrganizationDomain("holochain.org");
     QCoreApplication::setApplicationName("hcshell");
-    QCoreApplication::setApplicationVersion("0.1");
+    QCoreApplication::setApplicationVersion("0.0.1");
 
     QCommandLineParser parser;
     parser.setApplicationDescription("A GUI-less Holochain app container - with interactive JS shell");
