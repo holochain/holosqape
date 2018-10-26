@@ -35,26 +35,44 @@ HEADERS += \
     console.h
 
 INCLUDEPATH += ../bindings
-LIBS += -L../bindings -lbindings
 
-android {
-    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
+# Set globals
+win32:HC_PATH = ../../holochain-rust
+else:HC_PATH = ../../holosqape/holochain-rust
+HC_TARGET_PATH = $$HC_PATH/target
+# Set target dir
+CONFIG(debug, debug|release) {
+    TARGET_DIR = debug
 } else {
-    CONFIG(debug, debug|release) {
-        macx {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
-        } else {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/
-        }
-    } else {
-        LIBS += -L../../holosqape/holochain-rust/target/release/
-    }
+    TARGET_DIR = release
 }
-LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding
-#LIBS += -ldl
-LIBS += -lws2_32 -lshell32 -lDbghelp -lUserenv -lAdvapi32
-#LIBS += -L"C:\Qt\5.11.2\mingw53_32\lib" -lQt5Guid -lQt5Cored -lQt5Concurrentd -lQt5Networkd -lQt5WebSocketsd -lQt5Qmld
 
+# Define holochain lib path
+android:LIBS += -L$$HC_TARGET_PATH/armv7-linux-androideabi/release/
+win32:LIBS += -L$$HC_TARGET_PATH/$$TARGET_DIR/
+else:LIBS += -L$$HC_TARGET_PATH/$$TARGET_DIR/
+
+# Define bindings path
+win32:LIBS += -L../bindings/$$TARGET_DIR
+else:LIBS += -L../bindings
+
+# Add dependencies
+LIBS += -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding
+# Windows specific
+!win32 {
+    LIBS += -ldl
+}
+win32 {
+    LIBS += -lws2_32 -lshell32 -lDbghelp -lUserenv -lAdvapi32
+}
+# Mac specific
+macx:CONFIG(debug, debug|release) {
+    LIBS += -framework Security
+}
+
+message(hcshell: LIBS = $$LIBS)
+
+#
 RESOURCES += \
     qml.qrc
 
