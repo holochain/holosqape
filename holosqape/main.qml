@@ -6,8 +6,8 @@ import QtQuick.Controls 1.4
 ApplicationWindow {
     id: window
     title: qsTr("HoloSqape")
-    width: 500
-    height: 680
+    width: 700
+    height: 880
     visible: true
     onClosing: {
         window.visible = false
