@@ -143,7 +143,7 @@ void Console::run() {
 
     if(m_interactive) {
         char* buf = readline(">> ");
-        if(buf == nullptr || buf == "quit" || buf == "exit")
+        if(buf == nullptr || strcmp(buf, "quit")  == 0 || strcmp(buf, "exit") == 0)
             QCoreApplication::quit();
         else {
             if (strlen(buf) > 0) {
