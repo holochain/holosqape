@@ -14,12 +14,6 @@ ColumnLayout {
 
     Layout.fillWidth: true
 
-    Component.onCompleted: {
-
-
-        //parameters.placeholderText = as_string
-    }
-
     RowLayout {
         Layout.fillHeight: false
         Layout.fillWidth: true
