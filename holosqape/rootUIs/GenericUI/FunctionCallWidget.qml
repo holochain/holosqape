@@ -119,9 +119,13 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.preferredHeight: 40
 
-        Text {
+        TextEdit {
             id: output
             text: "<out will be displayed here>"
+            readOnly: true
+            wrapMode: Text.WordWrap
+            selectByMouse: true
         }
+
     }
 }
