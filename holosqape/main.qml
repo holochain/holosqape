@@ -6,9 +6,13 @@ import QtQuick.Controls 1.4
 ApplicationWindow {
     id: window
     title: qsTr("HoloSqape")
-    width: 500
-    height: 680
+    width: 700
+    height: 880
     visible: true
+    onClosing: {
+        window.visible = false
+        close.accepted = false
+    }
 
     property var activeRootUI
 
@@ -57,8 +61,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if(Container.installedApps().length === 0) {
-            Container.installApp(":/apps/test.json");
-            Container.installApp(":/apps/info.json");
+            Container.installApp(":/apps/app-spec-rust.hcpkg");
         }
     }
 

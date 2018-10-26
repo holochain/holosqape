@@ -3,7 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.11
 
 ColumnLayout {
-    id: _container
+    id: _app_widget
     property string name
     property string hash
     property var container
@@ -12,9 +12,10 @@ ColumnLayout {
     Layout.fillWidth: true
 
     Switch {
-        text: _container.name
+        text: _app_widget.name
         font.pixelSize: 20
         font.bold: true
+        checked: true
         onClicked: {
             if(checked) {
                 app.start()

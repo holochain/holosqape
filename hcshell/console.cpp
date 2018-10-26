@@ -1,8 +1,10 @@
 #include "console.h"
 #include <QTimer>
 #include <QJSEngine>
+#include <readline/readline.h>
+#include <readline/history.h>
 
-Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this), m_socket_interface(0)
+Console::Console(QObject *parent) : QObject(parent), m_engine(nullptr), m_container(this), m_socket_interface(nullptr)
 {
     QJSValue container = m_engine.newQObject(&m_container);
     QJSValue console = m_engine.newQObject(this);
@@ -27,7 +29,7 @@ QTimer* Console::setTimeout(QJSValue fn, int milliseconds)
     return timer;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void Console::clearTimeout(QTimer *timeout) {
@@ -140,16 +142,19 @@ void Console::run() {
     }
 
     if(m_interactive) {
-        std::cout << "> ";
-        std::string input;
-        std::getline(std::cin, input);
-        if(input == "exit")
+        char* buf = readline(">> ");
+        if(buf == nullptr || strcmp(buf, "quit")  == 0 || strcmp(buf, "exit") == 0)
             QCoreApplication::quit();
         else {
-            QJSValue result = m_engine.evaluate(QString(input.c_str()));
+            if (strlen(buf) > 0) {
+              add_history(buf);
+            }
+            QJSValue result = m_engine.evaluate(QString(buf));
             std::cout << result.toString().toStdString() << std::endl;
         }
+        free(buf);
     }
+
 
     QTimer::singleShot(1, this, SLOT(run()));
 }
