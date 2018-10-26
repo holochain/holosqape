@@ -77,6 +77,13 @@ QString Container::instancesDirectoryPath() {
     return instancesDirectory().canonicalPath();
 }
 
+QString Container::directoryNameForApp(QString app_hash) {
+    app_hash.replace("/", "_");
+    app_hash.replace("+", "_");
+    app_hash.replace("=", "_");
+    return app_hash;
+}
+
 QDir Container::rootUIsDirectory() {
     QDir app_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation));
     app_dir.mkpath("rootUIs");
@@ -172,14 +179,14 @@ QList<App*> Container::instances() {
 
 App* Container::instantiate(QString app_hash) {
     App *app;
-    QString storage_path = instancesDirectory().absoluteFilePath(app_hash);
-    if(instancesDirectory().exists(app_hash)) {
+    QString storage_path = instancesDirectory().absoluteFilePath(directoryNameForApp(app_hash));
+    if(instancesDirectory().exists(directoryNameForApp(app_hash))) {
         app = App::load(app_hash, storage_path);
     } else {
         Dna *dna = getDna(app_hash);
         if(!dna) return 0;
         holochain_dna_free(dna);
-        instancesDirectory().mkpath(app_hash);
+        instancesDirectory().mkpath(directoryNameForApp(app_hash));
         app = new App(app_hash, storage_path, this);
     }
 

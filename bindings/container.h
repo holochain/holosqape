@@ -27,6 +27,8 @@ public:
     QDir rootUIsDirectory();
     QDir instancesDirectory();
 
+    QString directoryNameForApp(QString app_hash);
+
 
 signals:
     void appsChanged();

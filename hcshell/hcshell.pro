@@ -2,7 +2,6 @@ QT += qml concurrent websockets
 CONFIG += c++11
 CONFIG -= qtquickcompiler
 CONFIG += console
-CONFIG -= app_bundle
 CONFIG += debug_and_release
 
 # The following define makes your compiler emit warnings if you use
@@ -15,6 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+ICON = hcshell.icns
 
 SOURCES += \
         main.cpp \
@@ -57,7 +58,7 @@ win32:LIBS += -L../bindings/$$TARGET_DIR
 else:LIBS += -L../bindings
 
 # Add dependencies
-LIBS += -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding
+LIBS += -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -lreadline
 # Windows specific
 !win32 {
     LIBS += -ldl

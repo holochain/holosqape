@@ -47,7 +47,11 @@ Rectangle {
                 onClicked: root.consoleIconClicked()
             }
         }
+    }
 
+    Component.onCompleted: {
+        if(Container.rootUINames.length > 0)
+            root.rootUISelected(Container.rootUINames[0])
     }
 
 
