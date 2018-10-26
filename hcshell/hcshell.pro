@@ -36,7 +36,7 @@ HEADERS += \
     console.h
 
 INCLUDEPATH += ../bindings
-LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl -lreadline
 
 android {
     LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/

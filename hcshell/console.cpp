@@ -1,6 +1,8 @@
 #include "console.h"
 #include <QTimer>
 #include <QJSEngine>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this), m_socket_interface(0)
 {
@@ -140,16 +142,19 @@ void Console::run() {
     }
 
     if(m_interactive) {
-        std::cout << "> ";
-        std::string input;
-        std::getline(std::cin, input);
-        if(input == "exit")
+        char* buf = readline(">> ");
+        if(buf == nullptr || buf == "quit" || buf == "exit")
             QCoreApplication::quit();
         else {
-            QJSValue result = m_engine.evaluate(QString(input.c_str()));
+            if (strlen(buf) > 0) {
+              add_history(buf);
+            }
+            QJSValue result = m_engine.evaluate(QString(buf));
             std::cout << result.toString().toStdString() << std::endl;
         }
+        free(buf);
     }
+
 
     QTimer::singleShot(1, this, SLOT(run()));
 }
