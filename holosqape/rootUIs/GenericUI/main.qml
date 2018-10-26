@@ -32,11 +32,13 @@ Rectangle {
         var component = Qt.createComponent("AppWidget.qml");
         for(var i in apps) {
             var hash = apps[i]
+            var instance = Container.instantiate(hash)
+            instance.start()
             component.createObject(layout,
                 {
                     hash: hash,
                     name: Container.appName(hash),
-                    app: Container.instantiate(hash)
+                    app: instance
                 }
             )
             console.log(hash)
