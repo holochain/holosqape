@@ -24,20 +24,28 @@ HEADERS += \
     app.h \
     socketinterface.h
 
+# Set globals
+HC_PATH        = ../../holosqape/holochain-rust
+HC_TARGET_PATH = $$HC_PATH/target
+
+# Define holochain lib path
 android {
-    LIBS += -L../holosqape/holochain-rust/target/armv7-linux-androideabi/release/ -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -L$$HC_TARGET_PATH/armv7-linux-androideabi/release/
 } else {
     CONFIG(debug, debug|release) {
-        macx {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
-        } else {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/
-        }
+        LIBS += -L$$HC_TARGET_PATH/debug/
+        macx: LIBS += -framework Security
     } else {
-        LIBS += -L../../holosqape/holochain-rust/target/release/
+        LIBS += -L$$HC_TARGET_PATH/release/
     }
-    LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+}
+message(Bindings: HC_LIB_PATH = $$LIBS)
+
+# Add dependencies
+LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding
+!win32 {
+    LIBS += -ldl
 }
 
-
+#
 include(vendor/vendor.pri)

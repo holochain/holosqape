@@ -35,30 +35,51 @@ HEADERS +=
 
 INCLUDEPATH += ../bindings
 
-android {
-    LIBS += -L../../holosqape/holochain-rust/target/armv7-linux-androideabi/release/
+# Set globals
+win32:HC_PATH = ../../holochain-rust
+else:HC_PATH = ../../holosqape/holochain-rust
+HC_TARGET_PATH = $$HC_PATH/target
+# Set target dir
+CONFIG(debug, debug|release) {
+    TARGET_DIR = debug
 } else {
-    CONFIG(debug, debug|release) {
-        macx {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/ -framework Security
-        } else {
-            LIBS += -L../../holosqape/holochain-rust/target/debug/
-        }
-    } else {
-        LIBS += -L../../holosqape/holochain-rust/target/release/
-    }
+    TARGET_DIR = release
 }
 
-LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+# Define holochain lib path
+android:LIBS += -L$$HC_TARGET_PATH/armv7-linux-androideabi/release/
+win32:LIBS += -L$$HC_TARGET_PATH/$$TARGET_DIR/
+else:LIBS += -L$$HC_TARGET_PATH/$$TARGET_DIR/
 
+# Define bindings path
+win32:LIBS += -L../bindings/$$TARGET_DIR
+else:LIBS += -L../bindings
 
-DISTFILES += \
-    android/AndroidManifest.xml \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat
+# Add dependencies
+LIBS += -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding
+# Windows specific
+!win32 {
+    LIBS += -ldl
+}
+win32 {
+    LIBS += -lws2_32 -lshell32 -lDbghelp -lUserenv -lAdvapi32
+}
+# Mac specific
+macx:CONFIG(debug, debug|release) {
+    LIBS += -framework Security
+}
 
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+message(holosqape: LIBS = $$LIBS)
+
+android {
+    DISTFILES += \
+        android/AndroidManifest.xml \
+        android/gradle/wrapper/gradle-wrapper.jar \
+        android/gradlew \
+        android/res/values/libs.xml \
+        android/build.gradle \
+        android/gradle/wrapper/gradle-wrapper.properties \
+        android/gradlew.bat
+
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+}
