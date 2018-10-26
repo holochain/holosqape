@@ -4,7 +4,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-Console::Console(QObject *parent) : QObject(parent), m_engine(0), m_container(this), m_socket_interface(0)
+Console::Console(QObject *parent) : QObject(parent), m_engine(nullptr), m_container(this), m_socket_interface(nullptr)
 {
     QJSValue container = m_engine.newQObject(&m_container);
     QJSValue console = m_engine.newQObject(this);
@@ -29,7 +29,7 @@ QTimer* Console::setTimeout(QJSValue fn, int milliseconds)
     return timer;
   }
 
-  return 0;
+  return nullptr;
 }
 
 void Console::clearTimeout(QTimer *timeout) {
