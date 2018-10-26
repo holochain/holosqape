@@ -48,7 +48,9 @@ android {
     }
 }
 
-LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+LIBS += -L../bindings -lbindings -lholochain_dna_c_binding -lholochain_core_api_c_binding
+#LIBS += -ldl
+LIBS += -lws2_32 -lshell32 -lDbghelp -lUserenv -lAdvapi32
 
 
 DISTFILES += \

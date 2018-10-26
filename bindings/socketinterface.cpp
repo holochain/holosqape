@@ -43,7 +43,7 @@ void SocketInterface::message_received(const QString &message) {
     if(!doc.isObject()) {
         qDebug() << "Received RPC that is not an object:";
         qDebug() << message;
-        socket->sendTextMessage(QString('{"error": "received non-JSON-object"}'));
+        socket->sendTextMessage(QString("{\"error\": \"received non-JSON-object\"}"));
         return;
     }
 

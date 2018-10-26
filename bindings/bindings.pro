@@ -36,7 +36,7 @@ android {
     } else {
         LIBS += -L../../holosqape/holochain-rust/target/release/
     }
-    LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl
+    LIBS += -lholochain_dna_c_binding -lholochain_core_api_c_binding -ldl -ltafiole
 }
 
 
