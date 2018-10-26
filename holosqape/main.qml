@@ -9,6 +9,10 @@ ApplicationWindow {
     width: 500
     height: 680
     visible: true
+    onClosing: {
+        window.visible = false
+        close.accepted = false
+    }
 
     property var activeRootUI
 
