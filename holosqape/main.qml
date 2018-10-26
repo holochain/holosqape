@@ -61,8 +61,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         if(Container.installedApps().length === 0) {
-            Container.installApp(":/apps/test.json");
-            Container.installApp(":/apps/info.json");
+            Container.installApp(":/apps/app-spec-rust.hcpkg");
         }
     }
 
