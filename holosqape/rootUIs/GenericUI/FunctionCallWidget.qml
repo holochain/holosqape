@@ -9,19 +9,15 @@ ColumnLayout {
     property string zome
     property string capability
     property string fn
-
+    property var parameters: app.parameter_names(zome, capability,fn)
+    property var parameter_inputs: []
 
     Layout.fillWidth: true
 
     Component.onCompleted: {
-        var parameter_names = app.parameter_names(zome, capability,fn)
-        var as_string = ""
-        for(var i=0; i<parameter_names.length; i++) {
-            as_string += parameter_names[i]
-            if(i<parameter_names.length-1)
-                as_string += ", "
-        }
-        parameters.placeholderText = as_string
+
+
+        //parameters.placeholderText = as_string
     }
 
     RowLayout {
@@ -40,19 +36,51 @@ ColumnLayout {
             border.width: 1
             Layout.minimumHeight: 23
 
-            TextInput {
-                id: parameters
-                anchors.fill: parent
-                anchors.leftMargin: 5
-                anchors.topMargin: 2
+            Row {
+                height: parent.height
+                spacing: 15
 
-                property string placeholderText: "Enter text here..."
+                Repeater {
+                    model: parameters
 
-                Text {
-                    text: parameters.placeholderText
-                    color: "#aaa"
-                    visible: !parameters.text
+                    Row {
+                        height: parent.height
+                        property string parameter: parameters[index]
+                        property var i: index
+                        TextInput {
+                            id: parameters_input
+                            property string parameter: parent.parameter
+                            width: max(text.length, parameter.length) * 8
+                            height: parent.height
+
+                            function max(x,y) {
+                                if(x>y) return x; else return y;
+                            }
+
+                            property string placeholderText: "Enter text here..."
+
+                            Component.onCompleted: {
+                                _this.parameter_inputs.push(this)
+                            }
+
+                            Text {
+                                text: parameter
+                                color: "#aaa"
+                                visible: !parameters_input.text
+                            }
+                        }
+
+                        Text {
+                            text: ","
+                            font.pixelSize: 20
+                            font.bold: true
+                            visible: i < _this.parameters.length-1
+                        }
+                    }
+
+
                 }
+
             }
         }
 
@@ -67,7 +95,17 @@ ColumnLayout {
             id: button
             text: "Run"
             onClicked: {
-                var result = app.call(zome, capability, fn, parameters.text)
+                var parameter_names = app.parameter_names(zome, capability,fn)
+                var json_string = "{"
+                for(var i=0; i<parameter_inputs.length; i++) {
+                    if(i>0) json_string +=","
+                    json_string +="\"" + parameter_inputs[i].parameter + "\"";
+                    json_string +=":";
+                    json_string +="\"" + parameter_inputs[i].text + "\"";
+                }
+                json_string += "}"
+
+                var result = app.call(zome, capability, fn, json_string)
                 output.text = result
             }
         }
