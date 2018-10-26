@@ -35,6 +35,7 @@ ColumnLayout {
             color: "white"
             border.width: 1
             Layout.minimumHeight: 23
+            visible: parameters.length > 0
 
             Row {
                 height: parent.height
