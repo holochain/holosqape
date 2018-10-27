@@ -60,7 +60,7 @@ Without any arguments passed, running `hcshell` will simply launch the interacti
 ```
 hcshell
 ```
-in your terminal and see what happens! You should see a big introductory message, and below it is an input where you can type. This is a Javascript ES5 console, so code must use that syntax. Press Ctrl-C to quit. 
+in your terminal and see what happens! You should see a big introductory message, and below it is an input where you can type. This is a Javascript ES5 console, so code must use that syntax. Press Ctrl-C to quit.
 
 Note, the directory from which you start `hcshell` interactive is important, if you want to run `Container.loadAndInstantiate("appname.dna.json")` and have it succeed. You can provide a relative path to `loadAndInstantiate` to your packaged application DNA file, from the directory where you launched `hcshell`.
 
@@ -81,7 +81,7 @@ See below on the [websockets](#websockets) section for more details on how to in
 
 Executing a script file using `hcshell` has the primary use case of writing tests in Javascript for your DNA. While it is often used in the context of `hc test` from the [holochain-cmd command line tools](https://github.com/holochain/holochain-cmd), it can definitely be directly used as well. Using it directly is likely useful in script files for example.
 
-In order to execute a script file, you must have a script file. It could be as simple as a javascript file that had a `console.log`. So say that the following file was sitting within your active CLI directory: 
+In order to execute a script file, you must have a script file. It could be as simple as a javascript file that had a `console.log`. So say that the following file was sitting within your active CLI directory:
 
 *hello-testing.js*
 ```
@@ -158,7 +158,8 @@ While this repository is still pre-release, there are no pre-built libraries yet
 	* `rustup default nightly`
 * [Qt](http://doc.qt.io/qt-5/index.html)
 	* Qt is a framework for C++, which is used to interface with the C bindings of holochain-rust
-	* For macOS (and with [brew](https://brew.sh/) on your computer), to install just run: `brew install qt`
+  * Qt needs to be version 5.6, or greater.
+  * For macOS (and with [brew](https://brew.sh/) on your computer), to install just run: `brew install qt`
 	* For linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build
 		* special linux note: the builds will fail without access to Qt and QtWebsockets, so run...
 		  ```
