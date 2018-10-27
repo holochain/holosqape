@@ -265,7 +265,7 @@ Depending on your configuration, you should have either a `~/.profile` or `~/.ba
 
 Assuming that the the repository was cloned into your HOME directory (`~`), you would add the following line to your terminal profile file, using a text editor. Change `$HOME/holosqape/hcshell` to point to the actual `hcshell` sub-directory on your computer, if it's different than that.
 
-`export PATH="$HOME/holosqape/hcshell:$PATH"`
+`export PATH="$HOME/holosqape/hcshell/hcshell.app/Contents/MacOS:$PATH"`
 
 Save the file, and open a new terminal window, or use
 `source ~/.profile` or `source ~/.bash_profile` to refresh the $PATH in your current terminal window.
