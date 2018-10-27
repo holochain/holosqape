@@ -10,6 +10,7 @@ bindings/Makefile.Debug
 bindings/Makefile.Release
 bindings/libbindings.a
 holosqape/debug
+holosqape/holosqape
 holosqape/Makefile
 holosqape/Makefile.Debug
 holosqape/Makefile.Release
