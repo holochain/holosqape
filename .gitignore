@@ -13,6 +13,7 @@ holosqape/debug
 holosqape/Makefile
 holosqape/Makefile.Debug
 holosqape/Makefile.Release
+hcshell/hcshell
 hcshell/debug
 hcshell/Makefile
 hcshell/Makefile.Debug
