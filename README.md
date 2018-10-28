@@ -160,11 +160,12 @@ While this repository is still pre-release, there are no pre-built libraries yet
 	* Qt is a framework for C++, which is used to interface with the C bindings of holochain-rust
 	* For macOS (and with [brew](https://brew.sh/) on your computer), to install just run: `brew install qt`
 	* For linux systems you may need to install [some dependencies](http://doc.qt.io/qt-5/linux.html) for successful build
-		* special linux note: the builds will fail without access to Qt and QtWebsockets, so run...
+		* special linux note: the builds will fail without access to Qt, QtWebsockets, and readline, so run...
 		  ```
 		  apt-get update && apt-get install --yes \
 		  qtdeclarative5-dev \
-		  libqt5websockets5-dev
+		  libqt5websockets5-dev \
+		  libreadline6-dev
 		  ```
 * [cmake](https://cmake.org/install)
 	* `cmake` is required in your CLI to accomplish the `make` compile steps that follow
