@@ -201,6 +201,14 @@ App* Container::loadAndInstantiate(QString path) {
         std::cout << QString("%1 is not a valid Holochain DNA file!").arg(path).toStdString() << std::endl;
         return 0;
     } else {
-        return new App(dna, QStandardPaths::writableLocation(QStandardPaths::TempLocation), this);
+        QString dna_json = QString(holochain_dna_to_json(dna));
+        QCryptographicHash hash(QCryptographicHash::Sha256);
+        hash.addData(dna_json.toUtf8());
+        QString sub_directory = directoryNameForApp(hash.result());
+        QString path = QDir(QStandardPaths::writableLocation(QStandardPaths::TempLocation)).absoluteFilePath(sub_directory);
+        QtShell::rmdir(path);
+        QtShell::mkdir(path);
+
+        return new App(dna, path, this);
     }
 }
