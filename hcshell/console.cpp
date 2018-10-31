@@ -3,6 +3,7 @@
 #include <QJSEngine>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <QThread>
 
 Console::Console(QObject *parent) : QObject(parent), m_engine(nullptr), m_container(this), m_socket_interface(nullptr)
 {
@@ -142,21 +143,23 @@ void Console::run() {
     }
 
     if(m_interactive) {
-        char* buf = readline(">> ");
-        if(buf == nullptr || strcmp(buf, "quit")  == 0 || strcmp(buf, "exit") == 0)
-            QCoreApplication::quit();
-        else {
-            if (strlen(buf) > 0) {
-              add_history(buf);
+        QThread *thread = QThread::create([this]{
+            while(true) {
+                char* buf = readline(">> ");
+                if(buf == nullptr || strcmp(buf, "quit")  == 0 || strcmp(buf, "exit") == 0)
+                    QCoreApplication::quit();
+                else {
+                    if (strlen(buf) > 0) {
+                      add_history(buf);
+                    }
+                    QJSValue result = m_engine.evaluate(QString(buf));
+                    std::cout << result.toString().toStdString() << std::endl;
+                }
+                free(buf);
             }
-            QJSValue result = m_engine.evaluate(QString(buf));
-            std::cout << result.toString().toStdString() << std::endl;
-        }
-        free(buf);
+        });
+        thread->start();
     }
-
-
-    QTimer::singleShot(1, this, SLOT(run()));
 }
 
 void Console::startWebSocketServer(uint port) {
