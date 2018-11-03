@@ -147,9 +147,9 @@ The **bindings** folder contains the Qt/C++ wrappers around the Holochain Rust c
 
 # Installation
 
-While this repository is still pre-release, there are no pre-built libraries yet, so the source code must be cloned and compiled on your computer. In the future, installation of these tools will be dramatically simplified.
+Our recommended pattern for the installation of `hcshell` command line tools is to use the Developer Preview release that you can find at the following link, along with its instructions: https://github.com/holochain/app-spec-rust/releases/tag/v0.0.1-dev-preview. Otherwise, you can proceed with the more complex instructions for building from source, below.
 
-### Dev Dependencies
+### Dev Dependencies for Building from Source
 
 * [Rust](https://www.rust-lang.org/en-US/install.html)
 	* The `nightly` toolchain of Rust is needed for compiling Holochain, `stable` will not work
