@@ -185,6 +185,14 @@ git submodule init
 git submodule update
 ```
 
+#### Osx Specific Step
+If you are running osx, you will need to run this as well:
+
+```
+brew install zmq
+```
+
+
 There are a couple of installation variants that follow, pick the ones that suits your needs.
 
 Whether installing `holosqape`, `hcshell` or both, you need to compile Holochain.
