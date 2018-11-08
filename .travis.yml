@@ -1,63 +1,12 @@
-language: python
-python:
-- "2.7"
-- "3.4"
-- "3.5"
-- "3.6"
-- "pypy3"
-matrix:
-  include:
-  - os: osx
-    language: sh
-    python: "3.7"
-    # Perform the manual steps on osx to install python3 and activate venv
-    before_install:
-    - brew update
-    - brew upgrade python3
-    - python3 -m pip install virtualenv
-    - virtualenv venv -p python3
-    - source venv/bin/activate
-  - os: windows
-    language: sh
-    python: "3.7"
-    before_install:
-    - choco install python3
-    - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
-    - python -m pip install --upgrade pip wheel
-  - os: windows
-    language: sh
-    python: "2.7"
-    before_install:
-    - choco install python2
-    - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-    - python -m pip install --upgrade pip wheel
-sudo: false
-install:
-# Get newer pip and whell for binary caching support
-- pip install --upgrade pip wheel
-- pip install -r requirements-test.txt
-script:
-- py.test --cov=translation_finder translation_finder
-- ./setup.py sdist
-- twine check dist/*
-after_script:
-- coverage xml
-- codecov
-- python-codacy-coverage
-cache: pip
-git:
-  depth: 10
-  submodules: false
+# https://docs.travis-ci.com/user/customizing-the-build/#safelisting-or-blocklisting-branches
+# we build all PRs already, don't need redundant branch builds
+branches:
+ only:
+   - master
+   - develop
 
-## https://docs.travis-ci.com/user/customizing-the-build/#safelisting-or-blocklisting-branches
-## we build all PRs already, don't need redundant branch builds
-#branches:
-#  only:
-#    - master
-#    - develop
-#
-#jobs:
-#  include:
+jobs:
+ include:
 #    - os: windows
 #      language: sh
 #      python: "2.7"
@@ -67,68 +16,72 @@ git:
 #        - python -m pip install --upgrade pip wheel
 #      script:
 #        - python --version
-#
-##    - name: "windows build wasm32"
-##      os: windows
-##      language: rust
-##      rust: nightly-2018-10-12-x86_64-pc-windows-msvc
+
+# #    - name: "windows build wasm32"
+# #      os: windows
+# #      language: rust
+# #      rust: nightly-2018-10-12-x86_64-pc-windows-msvc
 #      #script:
 #        #
-#    - name: "windows build all"
-#      os: windows
-#      #stage: install
-#      #language: shell
-#      env:
-#        # This works!
-#        - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holochain-rust\\vendor\\zmq
-#
-#        #- PYTHON_VERSION=2.7.11
-#        #- PYTHON_HOME='C:\\Python27'
-#
-#      #stage: compile
-#      language: rust
-#      rust: nightly-2018-10-12-x86_64-pc-windows-msvc
-#      install:
-#      #  - choco install python2
-#        - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-#        - python --version
-#        #- python -m pip install --upgrade pip wheel
-#      #- rustup target add wasm32-unknown-unknown --toolchain nightly-2018-10-12-x86_64-pc-windows-msvc
-#      script:
-#        # Note: cygwin term
-#
-#        #- choco --help
-#        #- choco install python2 --verbose --yes --execution-timeout=120
-#        - echo $PYTHON_VERSION
-#        - echo $PYTHON_HOME
-#        - echo $PYTHON_INCLUDE_DIRS
-#        - echo $PYTHON_LIBRARIES
-#
-#        # Note: This works!
-#        - PATH=$PATH:/c/Users/travis/build/holochain/holochain-rust/vendor/zmq/bin
-#        - echo $PATH
-#
-#        - python --version
-#        #- choco install python3
-#        #- python --version
-#        # Doesn't work: - set PYTHON_EXECUTABLE=/c/usr/bin/python.exe
-#
-#        # Build WASMs
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core/src/nucleus/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core/src/nucleus/actions/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core_api/wasm-test/round_trip/Cargo.toml --release --target wasm32-unknown-unknown
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core_api/wasm-test/commit/Cargo.toml --release --target wasm32-unknown-unknown
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path hdk-rust/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
-##        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path wasm_utils/wasm-test/integration-test/Cargo.toml --release --target wasm32-unknown-unknown
-#
-#        # Build All
-#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --verbose --all
-#
-#        # Test All
-#        # Note to self: It seems PYTHON_EXECUTABLE has to be defined by cmake somehow
-#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc test --verbose --all
-#
-#
+   - name: "windows build all"
+     os: windows
+     #stage: install
+     #language: shell
+     env:
+       # This works!
+       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holochain-rust\\vendor\\zmq
+
+       #- PYTHON_VERSION=2.7.11
+       #- PYTHON_HOME='C:\\Python27'
+
+     #stage: compile
+     language: rust
+     rust: nightly-2018-10-12-x86_64-pc-windows-msvc
+     install:
+       - choco install python2
+       - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+       - python --version
+       #- python -m pip install --upgrade pip wheel
+     #- rustup target add wasm32-unknown-unknown --toolchain nightly-2018-10-12-x86_64-pc-windows-msvc
+     script:
+       # Note: cygwin term
+
+       #- choco --help
+       #- choco install python2 --verbose --yes --execution-timeout=120
+       - echo $PYTHON_VERSION
+       - echo $PYTHON_HOME
+       - echo $PYTHON_INCLUDE_DIRS
+       - echo $PYTHON_LIBRARIES
+
+       # Note: This works!
+       - PATH=$PATH:/c/Users/travis/build/holochain/holochain-rust/vendor/zmq/bin
+       - echo $PATH
+
+       - python --version
+       #- choco install python3
+       #- python --version
+       # Doesn't work: - set PYTHON_EXECUTABLE=/c/usr/bin/python.exe
+
+       # Build WASMs
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core/src/nucleus/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core/src/nucleus/actions/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core_api/wasm-test/round_trip/Cargo.toml --release --target wasm32-unknown-unknown
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path core_api/wasm-test/commit/Cargo.toml --release --target wasm32-unknown-unknown
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path hdk-rust/wasm-test/Cargo.toml --release --target wasm32-unknown-unknown
+#        - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --manifest-path wasm_utils/wasm-test/integration-test/Cargo.toml --release --target wasm32-unknown-unknown
+
+       # Build All
+       - cd holochain-rust
+       - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --verbose --all
+
+       # Test All
+       # Note to self: It seems PYTHON_EXECUTABLE has to be defined by cmake somehow
+       #- cargo +nightly-2018-10-12-x86_64-pc-windows-msvc test --verbose --all
+
+
+
+
+
 ##    - name: "C binding tests"
 ##      dist: trusty
 ##      # https://github.com/travis-ci/travis-ci/issues/5175#issuecomment-215016943
