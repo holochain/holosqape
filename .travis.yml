@@ -29,7 +29,7 @@ jobs:
      #language: shell
      env:
        # This works!
-       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holochain-rust\\vendor\\zmq
+       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holosqape\\holochain-rust\\vendor\\zmq
 
        #- PYTHON_VERSION=2.7.11
        #- PYTHON_HOME='C:\\Python27'
@@ -45,7 +45,7 @@ jobs:
      #- rustup target add wasm32-unknown-unknown --toolchain nightly-2018-10-12-x86_64-pc-windows-msvc
      script:
        # Note: cygwin term
-
+       - pwd
        #- choco --help
        #- choco install python2 --verbose --yes --execution-timeout=120
        - echo $PYTHON_VERSION
@@ -54,7 +54,7 @@ jobs:
        - echo $PYTHON_LIBRARIES
 
        # Note: This works!
-       - PATH=$PATH:/c/Users/travis/build/holochain/holochain-rust/vendor/zmq/bin
+       - PATH=$PATH:/c/Users/travis/build/holochain/holosqape/holochain-rust/vendor/zmq/bin
        - echo $PATH
 
        #- python --version
