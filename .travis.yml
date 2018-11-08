@@ -13,6 +13,9 @@ jobs:
        - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holosqape\\holochain-rust\\vendor\\zmq
      language: rust
      rust: nightly-2018-10-12-x86_64-pc-windows-msvc
+    before_install:
+      - choco install python2
+      - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"     
      install:
      #- rustup target add wasm32-unknown-unknown --toolchain nightly-2018-10-12-x86_64-pc-windows-msvc
      script:
