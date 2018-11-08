@@ -1,0 +1,25 @@
+# https://docs.travis-ci.com/user/customizing-the-build/#safelisting-or-blocklisting-branches
+# we build all PRs already, don't need redundant branch builds
+branches:
+ only:
+   - master
+   - develop
+
+jobs:
+ include:
+   - name: "windows build holochain-rust all"
+     os: windows
+     env:
+       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holosqape\\vendor\\zmq
+     language: rust
+     rust: nightly-2018-10-12-x86_64-pc-windows-msvc
+     before_install:
+      - choco install python2
+      - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"     
+     script:
+       # Note: cygwin term
+       - PATH=$PATH:/c/Users/travis/build/holochain/holosqape/vendor/zmq/bin
+       - echo $PATH
+       # Build holochain-rust All
+       - cd holochain-rust
+       - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --verbose --all
