@@ -10,17 +10,15 @@ jobs:
    - name: "windows build holochain-rust all"
      os: windows
      env:
-       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holosqape\\holochain-rust\\vendor\\zmq
+       - LIBZMQ_PREFIX=C:\\Users\\travis\\build\\holochain\\holosqape\\vendor\\zmq
      language: rust
      rust: nightly-2018-10-12-x86_64-pc-windows-msvc
      before_install:
       - choco install python2
       - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"     
-     #install:
-     #- rustup target add wasm32-unknown-unknown --toolchain nightly-2018-10-12-x86_64-pc-windows-msvc
      script:
        # Note: cygwin term
-       - PATH=$PATH:/c/Users/travis/build/holochain/holosqape/holochain-rust/vendor/zmq/bin
+       - PATH=$PATH:/c/Users/travis/build/holochain/holosqape/vendor/zmq/bin
        - echo $PATH
        # Build holochain-rust All
        - cd holochain-rust
