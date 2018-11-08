@@ -57,7 +57,7 @@ jobs:
        - PATH=$PATH:/c/Users/travis/build/holochain/holochain-rust/vendor/zmq/bin
        - echo $PATH
 
-       - python --version
+       #- python --version
        #- choco install python3
        #- python --version
        # Doesn't work: - set PYTHON_EXECUTABLE=/c/usr/bin/python.exe
@@ -72,11 +72,11 @@ jobs:
 
        # Build All
        - cd holochain-rust
-       - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --verbose --all
+       #- cargo +nightly-2018-10-12-x86_64-pc-windows-msvc build --verbose --all
 
        # Test All
        # Note to self: It seems PYTHON_EXECUTABLE has to be defined by cmake somehow
-       #- cargo +nightly-2018-10-12-x86_64-pc-windows-msvc test --verbose --all
+       - cargo +nightly-2018-10-12-x86_64-pc-windows-msvc test --verbose --all
 
 
 
